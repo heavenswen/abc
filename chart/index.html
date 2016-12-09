@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>css3画饼图</title>
+		<link rel="stylesheet" href="reset.css" />
+		<link rel="stylesheet" href="pie.css" />
+		<script src="../lib/jquery-2.1.4.min.js"></script>
+	</head>
+
+	<body>
+		<a href="https://segmentfault.com/a/1190000005624945">form</a>
+		<div class="pie" id="colorful-pie" data-value="0.9"></div>
+		
+		<script src="pie.js"></script>
+		<script>
+			var myPie = new Pie({
+				el: '#colorful-pie', // 选择器
+				animite: true, // 是否要有动画效果
+				ring: 0.7, // 中间是否要空心，并设置空心的半径 
+				color: '#39f', // 自定义饼图的颜色,
+				number: true, // 是否要显示中间的百分比
+				rotate: 0 // 设置起点角度，默认是从12点钟方向开始的
+			});
+			myPie.init(); // 实例化
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>canvans 画布时间效果</title>
+	</head>
+	<style>
+		*{ padding: 0; margin: 0;}
+	</style>
+	<body>
+		<canvas id="canvas" style="border: 1px solid #ccc;">您的浏览器不支持canvas</canvas>
+	<script src="js/digit.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+	<script>
+window.onload=function(){
+	var canvas = document.getElementById('canvas');
+	var w = $(window).width()/2;
+	var h = $(window).height()/2;
+	canvas.width = w;
+	canvas.height = h;
+		var con = canvas.getContext('2d');
+	var colors = Array("#ffff00","#ff0000","#33ffff","#ff9900","#ff634c","#4cff61","#ff6ff7","#5f4ffc","#faa035")
+    var balls = [];//球数据
+    var old_time ;//旧时间
+		/*round*/
+		var r = 5;//圆的半径
+		var fill = '#3399ff';//填充颜色
+		var top = 10;
+		var margin =5;
+		/*content*/
+		
+	var colorfun = function(){
+		var num = parseInt(Math.random()*10);
+		return colors[num];
+	}
+	var get_time = function(){
+		 var	time = new Date(),
+			h = time.getHours(),
+			m = time.getMinutes(),
+			s = time.getSeconds();
+			var ti = [h,m,s];			
+		if(old_time)
+		{
+			if(old_time[2] != ti[2])
+			{
+				con.clearRect(0,0,con.canvas.width,con.canvas.height);//clear canvas
+				time_to_str(ti);
+			}						
+		}else{
+			time_to_str(ti);
+		}
+	}//getdate
+	var vxfun = function(){
+		 var randem = Math.random()*10<5?-4:4;
+		return randem;
+	}
+	var colorfun=function(){
+		var randem = parseInt(Math.random()*10);
+		return colors[randem];
+	}
+	var ballsfun = function(datax,datay){
+		balls.push({x:datax,y:datay,r:r,vx:vxfun(),vy:0,color:colorfun()})
+	}
+	function ball_to_round()
+	{
+		for(var i=0;i<balls.length;i++){
+			up_round(balls[i]);
+			round(balls[i].x,balls[i].y,balls[i].color)
+		}
+	}
+	function up_round(ball){
+		ball.x += ball.vx;
+		ball.y += ball.vy;
+		ball.vy += ball.g;
+		if(ball.y>canvas.height-ball.r)
+		{
+			ball.y = canvas.height-ball.r;
+			ball.vy = -ball.vy*0.5;
+		}//bottom检测
+		
+	}
+	var round = function(x,y,color){
+		 var time = new Date(),
+			h = time.getHours(),
+			m = time.getMinutes(),
+			s = time.getSeconds();
+			old_time =[h,m,s];
+			//set old time
+		con.beginPath();
+		con.arc(x,y,r,0,2*Math.PI);
+		con.fillStyle = color||fill;
+		con.fill();
+		con.closePath();
+		ball_to_round();//动画
+	}//round age (x,y)
+	function time_to_str(value){
+		var h =value[0]<10?"0"+value[0]:value[0],
+			m =value[1]<10?"0"+value[1]:value[1],
+			s =value[2]<10?"0"+value[2]:value[2];
+		
+		var str =String(h)+'a'+String(m)+'a'+String(s);//变化格式
+	 				
+		str_to_digit(str);
+				
+	}//time_to_str(value(h,m,s))
+	
+	function str_to_digit(str)
+	{
+		
+			for(var i=0;i<str.length;i++)
+		{
+			digit_to_round(i,str[i],round);
+		}
+		
+		
+		
+	}//str_todigit(str)
+	function digit_to_round(index,value,fun){
+		var num =value =='a'?10:Number(value);
+		
+		for (var i = 0;i<digit[num].length;i++)
+		{
+			arr_to_round(index,i+1,digit[num][i],fun);		
+		}
+		
+	}//digit_to_round(row,val)
+	function arr_to_round(index,age,value,fun){
+
+		for(var i=0;i<value.length;i++){
+			var row= index*value.length*2*(r+1)+(index+1)*margin;				
+			var x =2*(i+1)*(r+1)-(r+1)+row;
+			var y = 2*age*(r+1)-(r+1)+top;
+				if(value[i]=='1')
+			{
+				
+					fun(x,y)
+			}
+		}//for		
+	}//arr_to_round(字，点行，点内容)
+	var t = setInterval(get_time,50);//time fun
+	var t_fun = true;
+	$("body").click(function(){
+		if(t_fun){
+			clearInterval(t);
+			t_fun = false;
+		}else{
+			t = setInterval(get_time,50);//time fun
+			t_fun = true;
+		}
+		
+	})
+	
+}//end
+	</script>
+	</body>
+</html>

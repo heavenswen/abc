@@ -1,0 +1,25 @@
+
+<html>
+<head>
+<meta charset="utf-8" />
+<title>点击按钮，复制文本框的内容</title>
+<SCRIPT>
+function CopyAll(T)
+{
+T = document.getElementById('text1'); 	
+T.focus() //得到文本框焦点
+T.select() //全选文本框
+if (document.all){
+therange=T.createTextRange();
+therange.execCommand("Copy");//复制
+}
+}
+</SCRIPT>
+</head>
+<body>
+<INPUT TYPE="BUTTON" VALUE="复制" onclick="CopyAll()" >
+<BR>
+<TEXTAREA id="text1" COLS="40" ROWS="5">这是一段测试文字，你可以点击上边的按钮复制，粘贴到下边的文本框</TEXTAREA>
+<TEXTAREA COLS="40" ROWS="5">在这里粘贴：</TEXTAREA>
+</body>
+</html>

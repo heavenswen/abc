@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" /><!--ios-->
+    <title>滤镜，微信不支持</title>
+    <meta name="author" content="Qiu">
+    <meta name="keywords" content="关键字，关键字，关键字，" />
+   	<meta name="description" content="页面描述内容" />
+	<link rel="shortcut icon" href="images/img/logo.png" />
+	<link rel="stylesheet" href="css/qiu.mobile.css" />
+	</head>
+	<style>
+		li{ border:1px solid #39f; margin-bottom: 10px; background: #fee;}
+		.grayscale{
+			 filter:grayscale(50%);
+  -moz-filter:grayscale(50%);
+  -o-filter:grayscale(50%);
+  -webkit-filter:grayscale(0.5)
+		}/*灰阶*/
+		.invert{
+			filter:invert(100%);
+			-moz-filter:invert(100%);
+			-o-filter:invert(100%);
+			-webkit-filter:invert(1);
+		}/*反相*/
+		.sepia{
+			filter:sepia(100%);
+			-moz-filter:sepia(100%);
+			-o-filter:sepia(100%);
+			-webkit-filter:sepia(1);
+		}/*怀旧*/
+		.brightness{
+			filter:brightness(50%);
+			-moz-filter:brightness(50%);
+			-o-filter:brightness(50%);
+			-webkit-filter:brightness(.5);
+		}/*亮度*/
+		.contrast{
+			filter:contrast(200%);
+			-moz-filter:contrast(200%);
+			-o-filter:contrast(200%);
+			-webkit-filter:contrast(1.5);
+		}/*/对比*/
+		.hue-rotate{
+			filter:hue-rotate(50deg);
+			-moz-filter:hue-rotate(50deg);
+			-o-filter:hue-rotate(50deg);
+			-webkit-filter:hue-rotate(30deg);
+		}/*色阶*/
+		.blur{
+			filter:blur(1px);
+			-moz-filter:blur(1px);
+			-o-filter:blur(1px);
+			-webkit-filter:blur(1px);
+		}/*模糊*/
+		
+	</style>
+	<body>
+		<header class="fixed header">
+			<a class="pull-lefe icon icon-arrowleft back"></a><a href="index1.html" class="pull-right">登录</a>
+			<h1 class="title">滤镜！</h1>
+			
+		</header>
+		<div class="content " style="max-width: 640px;">
+			<ul class="table-view con">
+				<li>
+					<h2>原图：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="grayscale">
+					<h2>灰阶grayscale：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="invert">
+					<h2>反相invert：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="hue-rotate">
+					<h2>色阶hue-rotate：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="blur">
+					<h2>模糊blur：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="sepia">
+					<h2>怀旧sepia：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				
+				<li class="brightness">
+					<h2>亮度brightness：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>
+				<li class="contrast">
+					<h2>对比contrast：</h2>
+					<img class="col-xs-6" src="images/img04.jpg"/></li>	
+			
+			<button class="col-xs-6 block brightness" style="background: #39f;color: #fff;">按 钮</button></ul>
+		</div><!--content-->
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/qiu.mobile.1.0.js"></script>
+	</body>
+</html>		

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>html 转义</title>
+		<link rel="stylesheet" href="zui/css/zui.css" />
+		<script src="vue/dist/vue.js"></script>
+	</head>
+
+	<body>
+		<section id="app" class="cantainer">
+			<form class="">
+				<header class="panel-heading">
+					请输入
+				</header>
+				<div class="panel-body">
+					<textarea rows="5" style="width: 100%;" @keyup='htmlToStr' v-model='input' placeholder="输入要转义的html"></textarea>
+				</div>
+				<div class="panel-footer text-center">
+					<button type="button" class="btn btn-success " @click='htmlToStr'> 转义</button>
+					<button type="button" class="btn btn-info " @click="strToHtml"> 反转义</button>
+					<button type="reset" class="btn btn-warning"> 清空</button>
+				</div>
+				<header class="panel-heading">
+					转义String
+				</header>
+				<div class="panel-body">
+					<textarea rows="5" style="width: 100%;" v-model='str' id="tostring" @focus='selectAll'></textarea>
+				</div>
+				<header class="panel-heading">
+					html显示：
+				</header>
+				<div class="panel-body" v-html='str'>
+					
+				</div>
+				
+			</form>
+
+		</section>
+		<script>
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					input: "",
+					str: '',
+				},
+				methods: {
+					htmlToStr: function() {
+						//点击触发
+						var str = vm.input.replace(/</g, '&lt;');
+						str = str.replace(/>/g, '&gt;');
+						vm.str = str;
+					},
+					strToHtml:function(){
+						//点击触发
+						var str = vm.input.replace(/&lt;/g, '<');
+						str = str.replace(/&gt;/g, '>');
+						vm.str = str;
+					},
+					selectAll: function() {
+						if(vm.str) {
+							var obj = document.querySelector("#tostring");
+							obj.select();
+						}
+
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

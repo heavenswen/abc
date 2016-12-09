@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>$.Deferred异步执行</title>
+	</head>
+	<body>
+		<button class="when">when</button>
+		<button class="then">then</button>
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script>
+$(function(){
+	function a(){
+		var dtd = $.Deferred();
+		setTimeout(function(){
+			console.log('a:'+new Date);
+			 dtd.resolve();//表示成功
+		},5000)
+		return dtd;//返回一个Deferred对象
+	};
+	function b(){
+		var dtd = $.Deferred();
+		setTimeout(function(){
+			console.log('b:'+new Date);
+			 dtd.resolve();//表示成功
+		},1000)
+		return dtd;
+	}
+	
+	$(".when").click(function(){
+		console.log(".when:"+new Date);
+		//必须为Deferred对象才能异步执行
+		$.when(a())
+		.done(function(){
+			b()
+			//成功回调 ajax seccess()时
+		})
+		.fail(function(){
+			console.log('a失败！')//失败回调当dtd.reject()时 ajax.error()时 
+		})
+		.always(function(){
+			console.log('a执行完毕！')//必然回调
+		})
+		
+	})
+
+	$(".then").click(function(){
+		console.log(".then:"+new Date);
+		//then是缩减版（成功，失败）
+		a()
+		.then(function(){
+			b()
+			//成功回调
+		},function(){
+			//失败回调
+		})
+	})
+	var src = "http://www.imooc.com/upload/media/one.mp3";
+	var audio01 = new Audio(src);
+	
+	audio01.play();
+	
+})			
+		</script>
+	</body>
+</html>

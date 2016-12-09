@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.container{
+		width: 200px;
+		height: 150px;
+		line-height: 140px;
+		margin: 100px auto;
+		text-align: center;
+		border: 2px solid #000;
+		font-size: 40px;
+		background-color: #efefef;
+	}
+	</style>
+</head>
+<body>
+	<div class="container" id="c"></div>
+	<script>
+	    function getDirection(ev) {
+			var mx = ev.clientX,//指针坐标
+				my = ev.clientY;
+			var el = this.offsetLeft,
+				et = this.offsetTop,//div与pageTop的距离
+				ew = this.clientWidth,//divW
+				eh = this.clientHeight;//divH
+			var left = mx - el,
+				right = el + ew - mx,
+				top = my - et,
+				bottom = et + eh - my;
+			var min = Math.min.apply(Math, [left, right, top, bottom]);
+			if (min === left) {
+				return "left";
+			} else if (min === right) {
+				return "right";
+			} else if (min === top) {
+				return "top"
+			} else {
+				return "bottom";
+			}
+		}
+
+		document.getElementById("c").onmouseover=function(ev){
+			var dir=getDirection.call(this,ev);
+			this.innerText=dir;
+		}
+	</script>
+</body>
+</html>

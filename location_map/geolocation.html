@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />	
+		<title>地理位置</title>
+	</head>
+	<link rel="stylesheet" href="css/qiu.mob.1.1.css" />
+	<style>
+		.data{ border:1px dashed #ccc}
+	</style>
+	<body>
+		<div class="header">
+			<h1 class="title">geolocation获得地理位置</h1>
+		</div><!--header-->
+		<div class="content con">
+			<button type="button" class="location">获取地址</button>
+		</div><!--content-->
+		<script type="text/javascript" src="js/zepto.min.js" ></script>
+		<script>
+		$(function(){
+			function getlocation(){
+				if(navigator.geolocation)
+				{
+					 					navigator.geolocation.getCurrentPosition(Success,Error);
+					$(".location").after('正在获取中...') 					
+				}else{
+					alert('您的浏览器不支持地理地位！');
+				}
+			}
+			 Success = function(Position){
+				alert(Position.coords.latitude);
+			}
+			Error = function(error){
+				    switch(code.code) {
+        case error.TIMEOUT:
+            showError("操作超时");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            showError('未能探查到位置！');
+            break;
+        case error.PERMISSION_DENIED:
+            showError('用户不允许地理定位');
+            break;
+        case error.UNKNOWN_ERROR:
+            showError('发生未知错误！');
+       
+			}
+	}
+			$(".location").on('click',function(){
+				getlocation();
+			})
+			
+		});
+		</script>		
+	</body>
+</html>

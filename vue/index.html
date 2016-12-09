@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>vuejs 2.0</title>
+		<script style="text-align: ;" src="dist/vue.js"></script>
+	</head>
+
+	<body>
+		<h2>变量</h2>
+		<div id="app">
+			<p>v-text变量值：{{message}}</p>
+			<p>v-html字符输出 ：<span v-html='message' v-once></span><small>v-once 保持原始数据</small></p>
+			<p>模版上计算:{{a?a+1:"no"}}</p>
+			<p>双向绑定<input type="text" v-model='message' /></p>
+		</div>
+		<script>
+			new Vue({
+				el: "#app",
+				data: {
+					message: '<h3>Hello vuejs!</h3>',
+					a: 1,
+				},
+
+			})
+		</script>
+		<hr />
+		<h2>渲染列表v-for ='(value,key,index) in object'</h2>
+		<ul id="for">
+			<li v-for="(arr,key,index) of arrs">
+				key{{key}}-{{index}}-{{arr.text}}
+			</li>
+
+		</ul>
+		<script>
+			new Vue({
+				el: "#for",
+				data: {
+					arrs: {
+						'00': {
+							text: "v-for自动循环生成对象中的数据"
+						},
+						'11': {
+							text: "必须是一个对象的键值",
+						},
+					}
+				}
+			})
+		</script>
+		<hr />
+		<h2>用户事件methods + v-on:</h2>
+		<div id="function">
+			<input type="text" v-model='hello' />
+			<button v-on:click='set_hello'>SET</button>
+		</div>
+		<script>
+			new Vue({
+				el: "#function",
+				data: {
+					hello: 'Hello Vue.js!'
+				},
+				methods: {
+					set_hello: function() {
+
+						this.hello = "Hello MVVM!";
+					}
+				}
+			})
+		</script>
+		<hr />
+		<h2>传参 namefun(index)</h2>
+		<div class="index">
+			<ol>
+				<input type="text" v-model='input' @keyup.enter='addLi' /><button type="button" v-on:click='addLi'>Add</button>
+				<p><small>按回车添加</small></p>
+				<li v-for="(arr,index) in arrs" v-bind:index='index'>
+					{{arr.text}}
+					<input type="button" value="Del" v-on:click="removeLi(index)" />
+				</li>
+			</ol>
+		</div>
+		<script>
+			new Vue({
+				el: ".index",
+				data: {
+					input: "",
+					arrs: [{
+						text: "添加数组"
+					}],
+					a: 1,
+				},
+				methods: {
+					addLi: function(o) {
+						if(this.input) {
+							this.arrs.push({
+								text: this.input
+							});
+							this.input = '';
+						}
+
+					},
+					removeLi: function(index) {
+						this.arrs.splice(index, 1)
+					}
+				}
+
+			})
+		</script>
+		<hr>
+		<h3>表单控制</h3>
+		<div id="form">
+			<template>
+				<h5>文本输入框</h5>
+				<textarea v-model='textarea'></textarea>
+				<p>输入的内容:{{textarea}}</p>
+			</template>
+			<template>
+				<h5>单选项</h5>
+				<p><input type="radio" id="one" value="男" v-model='radio' /><label for="one">男</label></p>
+				<p><input type="radio" id='two' value="女" v-model='radio' /><label for="two">女</label></p>
+				<p>输入的内容:{{radio}}</p>
+			</template>
+			<template>
+				<h5>下拉单选</h5>
+				<select v-model='select'>
+					<option>option1</option>
+					<option>option2</option>
+					<option>option3</option>
+				</select>
+				<p>输入的内容:{{select}}</p>
+			</template>
+			<template>
+				<h5>选中框状态</h5>
+				<p><input type="checkbox" v-model='checked'>{{checked}}</p>
+			</template>
+		</div>
+		<script>
+			var vm = new Vue({
+				el: "#form",
+				data: {
+					textarea: "",
+					radio: '',
+					select: "",
+					checked: false,
+				},
+			});
+		</script>
+		<hr />
+		<h3 style="text-align: center;">组件</h3>
+		<div id="element">
+			<vue-name></vue-name>
+			<vue-add></vue-add>
+			<vue-add></vue-add>
+			<vue-add></vue-add>
+		</div>
+		<script>
+			//全局注册
+			var txt = {
+				text: "全局可用",
+				num: 0,
+			}; //全局
+			Vue.component("vue-name", {
+				template: "<h2>{{text}}</h2>",
+				data: function() {
+					return txt;
+				}
+			})
+			Vue.component("vue-add", {
+				template: "<button type='button' @click='num+=1'>{{num}}</button>",
+				data: function() {
+					return txt;
+				}
+			})
+			new Vue({
+				el: "#element",
+			})
+		</script>
+		<hr/>
+		<div id="child">
+			<vue-name></vue-name>
+			<h5>局部注册</h5>
+			<vue-child></vue-child>
+			<vue-child></vue-child>
+			<vue-child></vue-child>
+		</div>
+		<script>
+			var com = new Vue({
+				el: "#child",
+				data: {
+					text: "局部生效",
+				},
+				components: {
+					// <my-component> 将只在父模板可用
+					'vue-child': {
+						template: "<button type='button' @click='num+=1'>{{num}}</button>",
+						data: function() {
+								return {
+									num: 0
+								};
+							} //每次调用方法调用
+					}
+				}
+			})
+		</script>
+		<hr />
+
+		<h3>传参 props</h3>
+		<section id="props">
+			<child data-str='100'></child>
+		</section>
+		<p><small>HTML 特性不区分大小写。当使用非字符串模版时，名字形式为 camelCase 的 prop 用作特性时，需要转为 kebab-case（短横线隔开）:</small></p>
+		<script>
+			new Vue({
+				el: "#props",
+				components: {
+					// <my-component> 将只在父模板可用
+					'child': {
+						template: '<span>{{ dataStr }}</span>',
+						props: ['dataStr'], //获取一个标签上data-str的值
+					}
+				}
+			});
+		</script>
+		<hr />
+		<h3>动态参数</h3>
+		<section id="prop">
+			<p><input type="text" placeholder="输入一个参数" v-model='str'>
+				<child v-bind:data-str='str'></child>
+			</p>
+		</section>
+		<p><small>把v-model 用 v-bind 绑定到 模版上 可以实现动态参数</small></p>
+		<P><small>v-bind:prop-name='1' 时'1'为"number" </small></P>
+		<script>
+			new Vue({
+				el: "#prop",
+				data: {
+					str: 1,
+				},
+				components: {
+					// <my-component> 将只在父模板可用
+					'child': {
+						template: "<input type='text' v-model='dataStr' />",
+						//props 的数据是单向数据流
+						props: {
+							dataStr: {
+								type: [Number], //指定类型
+								required: true, //必须
+								//当类型不匹配建报错
+								default: function() {
+									return 100;
+								}, //默认值   or default:100; 不存在时
+								validator: function(v) {
+									return v > 0;
+								}, //自定义规则 例： 必须大于0
+							}
+						}, //获取一个标签上的值
+					}
+				}
+			})
+		</script>
+		<hr />
+		<h3>自定义绑定事件</h3>
+		<section id="on">
+			<p>总数:{{total}}</p>
+			<vue-add v-on:add='totalFun'></vue-add>
+			<span>+</span>
+			<vue-add v-on:add='totalFun'></vue-add>
+			<ul>
+				<li>使用 $on(eventName) 监听事件</li>
+				<p>另外，父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件。</p>
+				<li>使用 $emit(eventName) 触发事件</li>
+			</ul>
+		</section>
+		<script>
+			new Vue({
+				el: "#on",
+				//数据
+				data: {
+					total: 0,
+				},
+				//组件
+				components: {
+					//创建一个组件
+					"vue-add": {
+						//组件模版
+						template: "<button type='button' @click='add'>{{total}}</button>",
+						//
+						data: function() {
+							return {
+								total: 0
+							};
+						},
+						methods: {
+							add: function() {
+								this.total += 1;
+								this.$emit("add"); //触发add 
+							},
+						}
+
+					},
+				}, //components end
+				//父级事件
+				methods: {
+					//计算总数
+					totalFun: function() {
+						this.total += 1;
+					},
+
+				}
+			});
+		</script>
+		<hr />
+		<h3>input 组件</h3>
+		<div id="v-model-example">
+			<p>{{ message }}</p>
+			<my-input label="Message" v-model='message'></my-input>
+			<!-- v-model 相当于 v-bind:value='message' v-on:input='message = $enent.target.value' -->
+		</div>
+		<script>
+			Vue.component('my-input', {
+				template: '\
+    <div class="form-group">\
+      <label v-bind:for="randomId">{{ label }}:</label>\
+      <input v-bind:id="randomId" v-bind:value="value" v-on:input="onInput">\
+    </div>\
+  ',
+				props: ['value', 'label'],
+				data: function() {
+					return {
+						randomId: 'input-' + Math.random()
+					}
+				},
+				methods: {
+					onInput: function(event) {
+						this.$emit('input', event.target.value)
+					}
+				},
+			})
+			new Vue({
+				el: '#v-model-example',
+				data: {
+					message: 'hello'
+				}
+			})
+		</script>
+		<hr />
+		<h3>slot</h3>
+		<p>父组件的内容将被抛弃，除非子组件模板包含 <slot> 。如果子组件模板只有一个没有特性的 slot，父组件整个内容片段 将插到 slot 所在的 DOM 位置并替换掉 slot 标签。</p>
+		<section id="slot">
+			<app-slot>
+				<p>当内不存在slot标签时不显示</p>				
+			</app-slot>
+		</section>
+		
+		<script>
+			new Vue({
+				el:"#slot",
+				components:{
+					"app-slot":{
+						template:"<div><h2>I'm the child title</h2><slot>如果没有分发内容则显示我。</slot></div>",
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

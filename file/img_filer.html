@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>头部模糊</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<style>
+	*{ padding: 0; margin: 0;}
+	.fixed{
+		position: fixed;
+		width: 100%;
+		top:0;
+		left: 0;
+	}
+	li {
+		height: 50px;
+		border: 1px solid #39f;
+	}
+	.demo{
+		background:url(../guaguaka/girl2.jpg) left top;
+	-webkit-filter:blur(5px);
+	}
+	.show{
+		box-shadow: inset 0 0 25px 20px rgba(255,255,255,0.9);
+	}
+	</style>
+
+	<body>
+		<ul class="fixed">
+			<li class="demo"></li>
+			<li class="show">失败</li>
+		</ul>
+		<div>
+			<img src="../guaguaka/girl2.jpg" />
+			<img src="../images/img04.jpg" />
+		</div>
+
+	</body>
+
+</html>

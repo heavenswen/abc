@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>本地存储</title>
+	<style>
+		.data{ border:1px dashed #ccc}
+	</style>
+	</head>
+	<body>
+		<div class="header">
+			<h1 class="title">localStorage本地存储</h1>
+		</div><!--header-->
+		<div class="content con">
+			<ul class="row">
+				<form>
+				<li><input type="text" required placeholder="请输入用户名" id="user"/></li>
+				<li><input type="tel" required placeholder="请输入手机号码" id="phone"/></li>
+				<li><input type="email" required placeholder="请输入邮箱号码" id="email"/></li>
+				<li><button class="col-xs-12" type="button">SUB</button></li>
+				</form>
+			</ul>
+			<ul class="data con row">
+				
+			</ul>
+		</div><!--content-->
+		<script src="//cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
+		<script>
+		$(function(){
+			if(!window.localStorage)document.write("本地存储不能使用！");
+			var storage = window.localStorage;
+			var local_data =[];
+			$("button").on('click',function(){
+				$('input').each(function(){
+					var obj = $(this);
+					local_data.push(obj.attr('id')+":"+obj.val()||'');
+				})//each
+				storage.form = JSON.stringify(local_data);
+			})
+			
+			$('.data').append(storage.form);
+			var form_d = JSON.parse(storage.form);
+			
+		})//end		
+		</script>		
+	</body>
+</html>

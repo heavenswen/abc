@@ -1,0 +1,23 @@
+{
+    "draw": 1,
+    "recordsTotal": 57,
+    "recordsFiltered": 57,
+    "data": [
+        {
+            "name":"Angelica",
+            "age":"Ramos",
+            "office":"System Architect",
+            "address":"London",
+            "date":"9th Oct 09",
+            "salary":"$2,875"
+        },
+        {
+            "name":"Ashton",
+            "age":"Cox",
+            "office":"Technical Author",
+            "address":"San Francisco",
+            "date":"12th Jan 09",
+            "salary":"$4,800"
+        }
+    ]
+}

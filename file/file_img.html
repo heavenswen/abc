@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<!--ios-->
+		<title>图片预览</title>
+		<meta name="author" content="Qiu">
+		<meta name="keywords" content="关键字，关键字，关键字，" />
+		<meta name="description" content="页面描述内容" />
+		<link rel="shortcut icon" href="images/img/logo.png" />
+		<link rel="stylesheet" href="css/qiu.mobile.css" />
+	</head>
+
+	<body>
+
+		<div class="fileimg">
+			<input type="file" class="file_data" />
+		</div>
+		</div>
+
+		<script src="../lib/zepto.1.6.min.js"></script>
+		<script>
+			$(function() {
+				$.fn.fileRead = function(string) {
+					var obj = this;
+					$(obj).on("change", function() {
+							var file_box = $(this).parent();
+							if (!window.FileReader) {
+								file_box.append("<small>浏览器版本过低,无法预览！</small>");
+								return false;
+							}
+							var file = this.files[0];
+							var reader = new FileReader();
+							if (/image\/\w+/.test(file.type)) {
+								reader.readAsDataURL(file);
+								reader.onload = function(event) {
+									var txt = event.target.result;
+									var img = "<img src='" + txt + "'style='max-width:100%;'/>";
+									file_box.find('img').remove();
+									file_box.append(img);
+								}; //onload     
+							} else if(str.match('txt')){
+								reader.readAsText(file, "GB2312");
+								reader.onload = function(event) {
+										var txt = event.target.result;
+										var p = "<p style='width:100%;'>" + txt + "</p>";
+										file_box.html(p);
+									} //
+							} //end if
+						}) //change
+				}
+				
+				$(".file_data").fileRead();
+			})
+		</script>
+
+</html>

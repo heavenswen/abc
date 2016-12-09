@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>sass</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/page.scss" />
+	</head>
+
+	<body>
+		<code>
+			<li></li>
+		</code>
+		<h1>
+		SASS css预处理器
+		</h1>
+		<p>sass有两种后缀名文件：一种后缀名为sass，不使用大括号和分号；另一种就是我们这里使用的scss文件，这种和我们平时写的css文件格式差不多，使用大括号和分号。而本教程中所说的所有sass文件都指后缀名为scss的文件。在此也建议使用后缀名为scss的文件，以避免sass后缀名的严格格式要求报错。</p>
+		<h5>注释：</h5>
+		<p>sass支持‘//’和‘/**/’的方法，但单行注释不会被编译出来</p>
+		<h5>变量：</h5>
+		<p>以‘$’为声明变量，在变量后面添加!default为声明一个默认变量，可以通过在!default前声明变量来覆盖变量,在变量值后面添加!global为全局变量(sass3.4后)</p>
+		<p>变量还可以用在css选择器中 .class-#{$var}{//code...},通过#{$var}来调用</p>
+		<p>变量也可以作为样式 名使用 {border-#{$var}:1px solid #ccc;font:#{$var}/#{$var}}</p>
+		<h5>数组：</h5>
+		<ul>
+			<li>一维:$arr:5px 0px 0px 10px;</li>
+			<li>二维:$arr:11px 10px,20px 11px;or $arr:(11px 10px)(12px 30px) 用‘,’或“()”分隔</li>
+			<p>使用{padding:nth($arr,1)}</p>
+			<li>对象：$obj:(h1:18px,h2:16px)</li>
+			<p>可以使用@each $key ,$value in $obj{#{$key}:font-size:$value }循环输出</p>
+		</ul>
+		<h5>嵌套：</h5>
+		<p>sass 不仅可以选择器嵌套，还可以进行样式的嵌套</p>
+		<code>.class{</code><br />
+		<code>border{</code><br />
+		<code>style:solid</code><br />
+		<code>color:#39f</code><br />
+		<code>}</code><br />
+		<code>}</code>
+		<h5>@at-root (without: ...)和@at-root (with: ...) 跳出</h5>
+		<p>默认@at-root只会跳出选择器嵌套，而不能跳出@media或@support，如果要跳出这两种，则需使用@at-root (without: media)，@at-root (without: support)。这个语法的关键词有四个：all（表示所有），rule（表示常规css），media（表示media），support（表示support，因为@support目前还无法广泛使用，所以在此不表）。我们默认的@at-root其实就是@at-root (without:rule)。</p>
+		<h5>混合mixin 类似function之于js</h5>
+		<code>@mixin name($color:#39f){</code><br />
+		<code>border:1px solid $color </code><br />
+		<code>}</code><br />
+		<p><strong>@content</strong>可以用来解决css3的@media等带来的问题。它可以使@mixin接受一整块样式，接受的样式从@content开始。</p>
+		<code>@mixin max-screen($res){<br />
+  @media only screen and ( max-width: $res )<br />
+  {<br />
+    @content;<br />
+  }<br />
+}<br />
+
+@include max-screen(480px) {<br />
+  body { color: red }<br />
+}<br />
+
+//css style<br />
+//-------------------------------<br />
+@media only screen and (max-width: 480px) {<br />
+  body { color: red }<br />
+} </code>
+	<p><small>PS：@mixin通过@include调用后解析出来的样式是以拷贝形式存在的，而下面的继承则是以联合声明的方式存在的，所以从3.2.0版本以后，建议传递参数的用@mixin，而非传递参数类的使用下面的继承%</small></p>
+		<p>@include 继承</p>
+	</body>
+
+</html>

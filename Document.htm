@@ -1,0 +1,91 @@
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Script Defer Example</title>
+
+	</head>
+
+	<body>
+		<fieldset style="border: 0 none; border-top:1px solid #39f ;">
+			<legend style="padding:0 5px; text-align: center;">被遗忘的标签</legend>
+		</fieldset>
+		<div class='a active' style="border: 1px solid #fcc; padding: 5px;">
+			<div class="b active" style="border: 1px solid #39f;">
+				<input type="checkbox" class="checkboxall">
+			</div>
+		</div>
+		<button class="sub">sub</button>
+
+		<script>
+			var a = 1;
+			var b = 2;
+			var c = a > b ? '是' : '否';
+			document.write(c);
+		</script>
+
+		<ul>
+			<li>总量:<input type="text" id="g" /></li>
+			<li>总价：<input type="text" id="m"></li>
+			<input type="button" id="sub" value=" sub" />
+			<li>500g价格:
+				<p id="mo"></p>
+			</li>
+		</ul>
+	</body>
+	<script type="text/javascript" src="lib/jquery-2.1.4.min.js"></script>
+	<script>
+		$(function() {
+			/*$("#sub").click(function(){
+				var g = $("#g").val(),//总量
+					m = $("#m").val(),//总价
+					unit = Number(m)/Number(g);
+					unit =unit.toFixed(2);
+				var mo = unit*500 ;
+				$("#mo").text(mo+"/"+unit);
+			})*/
+			$("#sub").click(function() {
+				console.log($("").val());
+			})
+		})
+	</script>
+	<script>
+		function Foo() {
+			getName = function() {
+				console.log(1);
+			};
+			return this;
+		}
+
+		Foo.getName = function() {
+			console.log(2);
+		};
+		Foo.prototype.getName = function() {
+			console.log(3);
+		};
+		var getName = function() {
+			console.log(4);
+		};
+
+		function getName() {
+			console.log(5);
+
+		};
+		//log
+		console.log("Foo.getName:")
+		Foo.getName(); //2
+		console.log("getName():")
+		getName(); //4
+		console.log("Foo().getName():")
+		Foo().getName(); //1
+		console.log("getName():")
+		getName(); //1 (不太理解为什么是1)
+		console.log("new Foo.getName:")
+		new Foo.getName(); //2
+		console.log("new Foo().getName():")
+		new Foo().getName(); //3
+		console.log("new new Foo().getName():")
+		new new Foo().getName(); //3
+	</script>
+
+</html>

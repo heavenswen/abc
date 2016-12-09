@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>题目编辑器</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+	</head>
+	<style>
+		textarea {
+			width: 100%;
+		}
+	</style>
+
+	<body>
+		<h4>效果预览：</h4>
+		<div id='text_show'>
+
+		</div>
+		<hr />
+		<h4>题目添加</h4>
+		<form>
+			<button type="button" id="input_add">添加输入框站位</button>
+			<button type='reset'>清空</button>
+			<textarea id="text" rows='5'></textarea>
+		</form>
+		<script>
+			var str_input = '____'; //输入框站位符
+			var _text = document.getElementById("text");
+			//添加填空
+			document.getElementById("input_add").addEventListener("click", getAddStr, false);
+			//显示前端时的样式
+			document.getElementById("text").addEventListener("keyup", toHtml, false);
+
+			//显示html
+			function toHtml() {
+				//获得内容
+				var value = _text.value;
+
+				if(!value) return false;
+				
+				// htm 输入框
+				var inputHtm = "<input type='text' />"
+					//正则
+				var reg_tiankong = RegExp(str_input, 'g');
+				//转换htm
+				var htm = value.replace(reg_tiankong, inputHtm);
+				//处理回车
+				htm = htm.replace(/\n/g, '<br/>');
+				//显示
+				document.querySelector("#text_show").innerHTML = htm;
+			}
+			//填空
+			function getAddStr() {
+				addStr(_text, str_input)
+				toHtml();
+			}
+			//添加字符串
+			function addStr(obj, str) {
+				var value = obj.value;
+				//获得光标位置
+				var le = getCursortPosition(obj);
+				//获得 光标前的内容
+				var str_left = value.substring(0, le);
+				//光标后的内容
+				var str_right = value.substring(le, value.length);
+				obj.value = str_left + str_input + str_right;
+				//设置光标
+				setCaretPosition(obj, le)
+
+			}
+
+			//获得光标的位置
+			function getCursortPosition(ctrl) {
+				var CaretPos = 0; // IE Support
+				if(document.selection) {
+					ctrl.focus();
+					var Sel = document.selection.createRange();
+					Sel.moveStart('character', -ctrl.value.length);
+					CaretPos = Sel.text.length;
+				}
+				// Firefox support
+				else if(ctrl.selectionStart || ctrl.selectionStart == '0')
+					CaretPos = ctrl.selectionStart;
+				return(CaretPos);
+			}
+			//设置光标
+			function setCaretPosition(ctrl, pos) {
+				if(ctrl.setSelectionRange) {
+					ctrl.focus();
+					ctrl.setSelectionRange(pos, pos);
+				} else if(ctrl.createTextRange) {
+					var range = ctrl.createTextRange();
+					range.collapse(true);
+					range.moveEnd('character', pos);
+					range.moveStart('character', pos);
+					range.select();
+				}
+			}
+		</script>
+	</body>
+
+</html>

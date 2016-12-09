@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<form id="form">
+			<input type="text" name="name" />
+			<input type="file" name="file" />
+			<input type="button" value="sub" class="sub" id="but" />
+		</form>
+
+		<script src="lib/zepto.min.js"></script>
+		<script>
+			$(function() {
+
+				$(".sub").click(function() {
+
+					var url = 'file.php',
+						data = new FormData($("#form")[0]);
+					$.ajax({
+						type: "post",
+						url: url,
+						data: data,
+						async: true,
+						processData: false,//不进行系列化
+						contentType: false,//编码类型
+						success: function(json) {
+							console.log(json);
+						}
+					});
+				})
+
+			})
+		</script>
+	</body>
+
+</html>

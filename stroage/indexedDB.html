@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>indexedDB离线存储</title>
+		<link rel="stylesheet" href="css/qiu.mob.1.1.css" />
+	</head>
+	<style>
+		
+	</style>
+	<body>
+		<header class="header">
+			<h1 class="title">离线存储应用</h1>
+		</header><!--header-->
+		<div class="content">
+			<ul class="row">
+				
+				
+			</ul>
+			<button type="button" class="trgger">trgger</button>
+		</div><!--content-->
+		<script type="text/javascript" src="js/zepto.min.js" ></script>
+		<script>
+$(function(){
+			
+		
+			var	indexedDB = window.indexedDB||window.webkitIndexedDB||window.mozIndexedDB||window.msIndexedDB,
+				db,//结果result返回名
+				db_name = 'indexed',//库名
+				table_name = 'table';//表名
+			if(!indexedDB)
+			{
+				console.log("浏览器不支持离线存储")
+			}//支持判断
+			
+			var openDB = indexedDB.open(db_name);
+			//打开创建一个库
+			openDB.onerror = function(e){
+				console.log("错误："+e.target.errorCode)
+			}//请求失败
+			openDB.onsuccess = function(e){
+				db = e.target.result;
+				
+			}//请求成功
+			openDB.onupgradeneeded = function(e){
+				
+			}//版本不一致
+			
+			$("button").on('click',function(){
+				alert(db);
+			})
+})			
+		</script>
+	</body>
+</html>

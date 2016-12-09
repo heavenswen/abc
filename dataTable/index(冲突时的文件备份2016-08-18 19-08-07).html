@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="css/fixedColumns.dataTables.min.css" />
+
+	<body>
+		<table id="table" border="1"></table>
+		<button type="button" class="add">add</button>
+		<script src="lib/jquery.js"></script>
+		<script src="lib/jquery.dataTables.min.js"></script>
+		<script src="js/dataTables.fixedColumns.min.js"></script>
+		<script>
+			$(function() {
+				var columns = [{
+					"data": "name", //key
+					"defaultContent": "", //默认内容
+					"render": false, //显示第[num]
+					"title": "option1", //标题
+					"visible": true, //显示
+					"class": "text-center"
+				}, {
+					"data": "position",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "office",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "extn",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "start_date",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "salary",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "start_date",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}, {
+					"data": "salary",
+					"title": "option1", //标题
+
+					"defaultContent": "", //默认内容
+
+				}];
+				var datas = [{
+					"name": "Tiger Nixon",
+					"position": "System Architect",
+					"salary": "$3,120",
+					"start_date": "2011/04/25",
+					"office": "Edinburgh",
+					"extn": 5421
+				}, ];
+
+				var table = $('#table').DataTable({
+					"filter": false,
+					"destroy": true, //允许重绘
+					"ordering": false, //关闭表格的排序功能
+					searching: false, //searcher
+					"autoWidth": false, //width auto
+					"jQueryUI": true, //需要引入对应的css
+					"deferRender": true, //延迟渲染
+					"info": false, //table bottom text
+					"data": datas,
+					"columns": columns,
+					scrollX: true,
+					scrollY: 150,
+					scrollCollapse: true,
+					paging: false,
+					fixedColumns: {
+						leftColumns: 1,
+						rightColumns: 0
+					}
+
+				});
+
+				//add data 
+				table.rows.add([{
+					"name": "add",
+					"position": "System Architect",
+					"salary": "$3,120",
+					"start_date": "2011/04/25",
+					"office": "Edinburgh",
+					"extn": ''
+				}, {
+					"name": "add1",
+					"position": "System Architect",
+					"salary": "$3,120",
+					"start_date": "2011/04/25",
+					"office": "Edinburgh",
+					"extn": ''
+				}, ]).draw();
+				//get row data
+				$("#table").on("click", 'td', function() {
+						var tr = $(this).parents('tr')[0];
+						console.log( table.row(tr).data() );
+					})
+					//set row data (selected)
+				$("#table").on("click", 'td', function() {
+					table.row(this).data(['1']);
+				})
+			})
+		</script>
+	</body>
+
+</html>

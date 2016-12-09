@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>border应用</title>
+		<style>
+			h4 {
+				color: #333;
+			}
+			
+			.bo {
+				border: solid 15px #FF9600;
+				width: 0;
+				height: 0;
+				border-right-color: #fcc;
+				border-top-color: #39f;
+				border-bottom-color: #07BE50;
+			}
+			
+			.b1 {
+				border-bottom-width: 0;
+			}
+			
+			.b2 {
+				border-bottom-color: transparent;
+			}
+			
+			.b3 {
+				border-bottom-width: 20px;
+				border-right-width: 20px;
+			}
+			/*折角*/
+			
+			.tit {
+				position: relative;
+				height: 40px;
+				line-height: 40px;
+				background: #39f;
+				color: #fff;
+			}
+			
+			.tit:after {
+				position: absolute;
+				top: 0;
+				left: 0;
+				content: '';
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 25px;
+				height: 25px;
+				border: 2px solid #fff;
+				border-bottom: 0;
+				border-right: 0;
+			}
+			
+			.tit i {
+				position: absolute;
+				left: 2px;
+				bottom: 15px;
+				display: block;
+				height: 33px;
+				width: 1px;
+				background-color: rgba(0, 0, 0, 0.2);
+				z-index: 1;
+				-webkit-transform-origin: 0 100%;
+				-webkit-transform: rotate(45deg);
+			}
+			
+			.tit h2 {
+				font-size: 16px;
+				padding-left: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ol>
+			<li>
+				<h4>当宽高为0时，边15px时实际的效果</h4>
+				<div class="bo "></div>
+			</li>
+			<li>
+				<h4>当有一位置的边为0时的效果</h4>
+				<div class="bo b1"></div>
+			</li>
+			<li>
+				<h4>可以利用改变border的颜色来做出三脚组合</h4>
+				<div class="bo b2"></div>
+			</li>
+			<li>
+				<h4>折角效果</h4>
+				<div class="tit">
+					<i></i>
+					<h2>标题</h2>
+				</div>
+			</li>
+		</ol>
+		<fieldset style="text-align: center;">
+			<style>
+				.bor {
+					margin: auto;
+					width: 150px;
+					border: 5px solid rgba(255, 141, 141, 0.3);
+					padding: 15px 15px;
+					border-image-source: url(images/dice_02.png);
+				}
+				
+				.round {
+					border-image-slice:30%;
+					border-image-width: 15px;
+					border-image-repeat: round;
+				}
+				
+				.stretch {
+					border-image-slice: 30%;
+					border-image-width: 15px;
+					border-image-repeat: stretch ;
+				}
+			</style>
+			<legend>Border-image</legend>
+			<ul style="text-align: left;">
+				<li>border-image-source 用在边框的图片的路径。 </li>
+				<li>border-image-slice 图片边框向内偏移。(图片偏移 默认px 或%)九宫格切割</li>
+				<li>border-image-width 图片边框的宽度。</li>
+				<li>border-image-outset 边框图像区域超出边框的量。</li>
+				<li>border-image-repeat 图像边框是否应平铺(repeated)、铺满(rounded)或拉伸(stretched)。</li>
+			</ul>
+			<div class="bor round">aaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+			<hr />
+			<div class="bor stretch">aaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+			<hr />
+			<div class="bor ">aaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</div>
+		</fieldset>
+	</body>
+
+</html>

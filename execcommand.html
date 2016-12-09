@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<body>
+		<textarea id='sp' >普通!</textarea>
+		<textarea id='text' >这是内容部分!</textarea>
+		<button id="b">Copy</button>
+		<br/>
+		<textarea ></textarea>
+	</body>
+	<script type="text/javascript">
+		var t = document.getElementById('text'),
+			b = document.getElementById('b');
+		
+		b.onclick = function(){
+			//t.select();
+			//document.execCommand('Copy');
+			var l = t.value.length;
+			t.setSelectionRange(0,4);
+		}
+	</script>
+</html>

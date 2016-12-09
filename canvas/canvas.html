@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>canvas基础</title>
+	</head>
+	<body>
+		<canvas id="canvas" style="border:1px solid #ccc"></canvas>
+<script>
+window.onload=function(){
+	var date = new Date();
+	var h = date.getHours();
+	var m = date.getMinutes();
+	var s = date.getSeconds();
+
+	
+	var data =[
+	{move:[{x:0,y:0},{x:180,y:180},{x:0,y:360},{x:0,y:0}],color:'#33ff99'},
+	{move:[{x:0,y:0},{x:360,y:0},{x:120,y:120},{x:0,y:0}],color:'#33ffff'}
+	];
+	
+	var canvas = document.getElementById('canvas');
+	canvas.width = '360';
+	canvas.height = '360'
+	var contents = canvas.getContext('2d');
+	for(var i=0;i<data.length;i++ ){
+		path(data[i]);
+	}
+	
+	function path(val){
+		var value = val['move'],
+			color = val['color'];
+		
+		contents.beginPath()
+		contents.moveTo(value[0]['x'],value[0]['y']);
+		for(var i=1;i<value.length;i++)
+		{
+			contents.lineTo(value[i]['x'],value[i]['y']);
+			
+		}
+		contents.fillStyle=color||'#3399ff';
+		contents.fill();		
+		contents.closePath();
+	}
+	contents.beginPath()
+	contents.arc(200,200,10,0,2.5*Math.PI)
+	contents.strokeStyle = '#ff0000';
+	contents.stroke();
+	
+	}
+</script>
+	</body>
+</html>

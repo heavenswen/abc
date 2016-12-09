@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>地图显示</title>
+	<style type="text/css">
+		body{margin:0;height:100%;width:100%;position:absolute;}
+		#map{height:400px;width:600px; margin: 0 auto;}
+		.flag{
+			 position: relative;
+			 width: 300px;
+			 display: block;
+			 padding-left: 15px;
+			 color: #3399FF;
+			 font-size: 14px;
+		}
+		.flag:after{
+			position: absolute;
+			top:10px;
+			left: 0;
+			content: '';
+			display: block;
+			width: 10px;
+			height: 10px;
+			background: #007AFF;
+			border-radius: 50%;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=4357c14db93812342c0c26d4a6c1496b"></script>
+	<script type="text/javascript">
+		(function(){
+			
+			var mapObj = new AMap.Map('map',{
+				resizeEnable: true,
+			//二维地图显示视口
+			view: new AMap.View2D({
+				center:new AMap.LngLat(118.110922,24.593442),//地图中心点
+				zoom:15 //地图显示的缩放级别
+				})
+			});//map
+			mapObj.plugin(["AMap.ToolBar","AMap.OverView","AMap.Scale"],function(){
+  //加载工具条
+  tool = new AMap.ToolBar({
+    direction:true,//隐藏方向导航
+    ruler:true,//隐藏视野级别控制尺
+    autoPosition:false//禁止自动定位
+  });
+  mapObj.addControl(tool);
+  //加载鹰眼
+  view = new AMap.OverView();
+  mapObj.addControl(view);
+  //加载比例尺
+  scale = new AMap.Scale();
+  mapObj.addControl(scale);
+});
+			
+			
+			var marker = new AMap.Marker({
+	        position: mapObj.getCenter()
+	    	})	 
+	    	
+	    marker.setMap(mapObj);//添加到地图上
+	    //设置鼠标划过点标记显示的文字提示
+	    marker.setTitle('厦门安麓迩健康管理有限公司'); 
+		marker.setContent("<a class = 'flag'>厦门安麓迩健康管理有限公司</a>");	
+		})(window);		
+	</script>
+	
+	
+	
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>随机分组</title>
+		<link href="//cdn.bootcss.com/zui/1.5.0/css/zui.min.css" rel="stylesheet">
+		<script src="dist/vue.js"></script>
+	</head>
+	<style>
+		ol li span {
+			display: inline-block;
+			width: 50px;
+		}
+		
+		ol li:nth-child(odd) span {
+			background: #007AFF;
+		}
+		
+		ol li:nth-child(even) span {
+			background: #f00;
+		}
+	</style>
+
+	<body>
+		<h1 class="text-center bg-info panel-body" style="margin: 0;">随机分组</h1>
+		<section class="cantainer" id="app">
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-lg-3">
+						用户名：
+					</label>
+					<div class="col-lg-6 " :class="{'has-error':!classInput}">
+						<input type="search" class="form-control" id="user" v-model='input_value' @keyup.enter='peoplesAdd' />
+					</div>
+					<div class="col-lg-3 ">
+						<button type="button" class="btn btn-success" @click='peoplesAdd'>添加</button>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<header class="panel-heading ">
+					<input type="checkbox" v-model='all' @change='change_all' />所有成員 共{{peoples|length}}人
+				</header>
+				<div class="panel-body form-group ">
+					<div class="penel-body">
+						<span v-for="(arr,index) in peoples" class="" style="display: inline-block; width: 25%; margin-left: 0;" v-bind:index="index">
+							<label>
+							
+							<input type="checkbox" v-model="arr.checked" @change="change_user(index)"  /> 
+							<big>{{arr['user']}}</big>
+							</label>
+							<a @click="userDel(index)" href="javascript:;"  class="text-danger">×</a>
+						</span>
+
+					</div>
+				</div>
+				<!--<div class="panel form-horizontal">
+			<header class="panel-heading">
+				其他
+			</header>
+			<div class="panel-body row">
+				<div class="checkbox-inline" v-for="arr in ai">
+					{{arr.user}}
+					<input type="number" style="width: 50px;" v-model='arr.age' />
+				</div>
+
+			</div>
+		</div>-->
+				<div class="clear text-center panel-body">
+					<input type="number" style="width: 50px;text-align: center;" v-model='group'>
+					<button type="button" class="btn btn-info" @click="group_add">生成队列</button><button type="button" class='btn btn-warning' @click='group_del'>清空队员</button>
+				</div>
+				<div class="panel form-horizontal">
+					<header class="panel-heading">
+						队列 <big class='text-danger'>共选中{{checked |length}}</big>
+
+					</header>
+					<template v-if="group_arr">
+						<div class="panel-body">
+							<ol>
+								<p class="text-warning" v-if='date'>{{date}}</p>
+								<li v-for='arr in group_arr'>
+									<span v-for='a in arr' class="label label-badge">
+							{{a.user}}
+						</span>
+								</li>
+							</ol>
+						</div>
+					</template>
+				</div>
+		</section>
+		<ul>
+			<li class="">vuejs+zui.css</li>
+			<li class="text-success">记录用户名</li>
+			<li class='text-success'>随机分组</li>
+			<li class="text-success">多组分配</li>
+		</ul>
+
+	</body>
+	<script src="../localstorage/localStorageDb.js"></script>
+	<script>
+		//添加一个arraylength 过滤器
+		Vue.filter('length', function(value) {
+			return value.length;
+		});
+
+		//浏览器数据库
+		var db = new storageDb("group");
+
+		var peoples = db.data();
+		if(peoples == '') {
+			peoples = [{
+				user: "Q",
+				checked: false
+			}, {
+				user: "污孟哲"
+			}, {
+				user: "污妖王"
+			}, {
+				user: "老司机"
+			}, {
+				user: "小晋"
+			}, {
+				user: "马老大"
+			}, {
+				user: "李享"
+			}];
+		}
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				all: false, //全选设置
+				classInput: true, //输入框验证
+				peoples: peoples, //其他数据
+				checked: [], //选中数据
+				input_value: '', //用户输入框数据
+				group: 2, //队伍数量
+				group_arr: [], //队伍
+				date: 0, //设置时间
+			},
+			//数据改变时
+			watch: {
+				"peoples": {
+					handler: function(val, oldVal) {
+						db._init(vm.peoples); //浏览器存储
+					},
+					deep: true //深度模式
+				}
+			},
+			//自定义方法
+			methods: {
+				//添加用户
+				peoplesAdd: function() {
+					var value = this.input_value; //获得输入
+					if(vm.input_value) {
+						if(!this.peoples) this.peoples = [];
+						var arr = {
+							user: value,
+							checked: false,
+							date: new Date().toLocaleString()
+						};
+						this.peoples.push(arr)
+						this.input_value = ''; //清空
+						vm.classInput = true; //tip
+					} else {
+						vm.classInput = false; //tip
+					}
+				},
+				//删除用户
+				userDel: function(index) {
+					var user = vm.peoples[index].user;
+					if(confirm("确定要删除 ：" + user)) {
+						this.peoples.splice(index, 1)
+					}
+				},
+				//全选
+				change_all: function() {
+					var bool = this.all;
+					for(i = 0; i < vm.peoples.length; i++) {
+						vm.peoples[i].checked = bool;
+					}
+				},
+				//选中用户
+				change_user: function(index) {
+					//修改checkbox
+					var obj = vm.peoples[index];
+					var value = obj.checked;
+					group_get(); //获得选中数
+					obj.checked = value; //设置选中
+				},
+				group_add: function() {
+						//打乱数组
+					for(i = 0; i < vm.checked.length; i++) {
+						vm.checked.sort(function() {
+							return 0.5 - Math.random()
+						});
+					}
+
+					//分组项
+					group_set(vm.checked, vm.group)
+				},
+				//清空所有队员
+				group_del: function() {
+
+					if(confirm("确定要清空所有成员吗？")) this.peoples = db.clean();
+
+				},
+			},
+		});
+		group_get();
+		//获取成员
+		function group_get() {
+			vm.checked = []; //清空数组
+			//获取用户组的队列
+			for(i = 0; i < vm.peoples.length; i++) {
+				var obj = vm.peoples[i];
+				//添加选中项
+				if(obj.checked) {
+					vm.checked.push(obj);
+				}
+			};
+		}
+		//分组
+		function group_set(group, age) {
+			var l = parseInt(group.length / age); //平均成员数
+			var num = (group.length % age); //求余
+			vm.group_arr = []; //清空
+			var g = 0;
+			for(n = 0; n < group.length - num; n++) {
+
+				if((n + 1) > l * (g + 1)) {
+					//分配玉
+					g++;
+				}
+				//添加进组
+				group_set_add(group, g, n)
+			};
+			//余分组
+			for(i = 0; i < num; i++) {
+				group_set_add(group, i, (l * age + i))
+			}
+			//get 时间
+			vm.date = new Date().toLocaleString();
+
+		};
+		//数组添加，对象，队伍，index
+		function group_set_add(group, g, n) {
+			//创建组别
+			if(!vm.group_arr[g]) {
+				vm.group_arr[g] = [];
+			};
+			//添加到队伍
+			vm.group_arr[g].push(group[n]);
+		}
+	</script>
+
+</html>

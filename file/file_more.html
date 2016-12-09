@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" /><!--ios-->
+    <title>多文件上传</title>
+    <meta name="author" content="Qiu">
+    <meta name="keywords" content="关键字，关键字，关键字，" />
+   	<meta name="description" content="页面描述内容" />
+	<link rel="shortcut icon" href="images/img/logo.png" />
+	<link rel="stylesheet" href="css/qiu.mobile.css" />
+	</head>	
+	<body>
+		<input type='file' multiple="multiple" />
+		
+	<script src="//cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
+	<script>
+		$(function(){
+			$('input').on("change",function(){
+				var file = this.files;
+				for(var i=0;i<file.length;i++){
+					$('body').append(file[i].name+"|"+file[i].type+'|'+file[i].size+"b<br/>");
+				}
+				
+			})
+		})
+	</script>
+	</body>
+</html>		
