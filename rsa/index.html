@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>rsa加密</title>
+		<script src="RSA.js"></script>
+		<script src="BigInt.js"></script>
+		<script src="Barrett.js"></script>
+	</head>
+	<body>
+	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+	<script>
+		encryptedString : (function(paramStr, rsaKey){
+    	setMaxDigits(130);
+    	//第一个参数为加密指数、第二个参数为解密参数、第三个参数为加密系数
+    	//Q:
+    	key = new RSAKeyPair("10001", "", rsaKey); 
+    	//返回加密后的字符串
+    	return encryptedString(key, encodeURIComponent(paramStr));
+        })
+		
+		$.ajax({
+    url :"#",
+    //加密传输
+    data : {pwd:encryptedString ($("#pwd").val(), "adasdasdasdasdadsasdasdasdasd")},
+    type  : "post",
+    datatype : "json",
+    success : function(retData){
+    }
+});
+	</script>
+	
+	</body>
+</html>
