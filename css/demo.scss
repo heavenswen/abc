@@ -1,7 +1,12 @@
 @import 'common'; //css lib
-h3 {
-    @include box-shadow();
-}
+
+
 div {
-    @include block-pos-auto((10px,20px));
+    @include pos-auto();
+    @include padding-data((top,bottom),15px);
+   
+}
+ul{
+    @include pos-auto();
+    @include padding-data((top,bottom),15px) 
 }

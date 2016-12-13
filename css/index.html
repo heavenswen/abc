@@ -8,12 +8,39 @@
 
 		<link rel="stylesheet" href="demo.scss" />
 	</head>
+	<style>
+		body {
+			font-size: 18px;
+		}
+		
+		strong {
+			font-size: 120%;
+		}
+	</style>
 
 	<body>
-		<h3>map</h3>
+		<h2>变量</h2>
+		<p><strong>$map(key:v)</strong>对象</p>
+		<p><strong>#{name}</strong>转字符串</p>
+		<h2>嵌套</h2>
 		<p>
-			map数据以key和value成对出现，其中value又可以是list。格式为：$map: (key1: value1, key2: value2, key3: value3);。可通过map-get($map,$key)取值。关于map数据还有很多其他函数如map-merge($map1,$map2)，map-keys($map)，map-values($map)等，具体可参考sass Functions（搜索Map Functions即可）
+			<strong>@at-root</strong> 3.3.0跳出所有上级选择器。
 		</p>
+		<ol>
+			<li><strong>@at-root body</strong> 单个跳出</li>
+			<li><strong>@at-root body &</strong> 跳出并链接同级</li>
+			<li><strong>@at-root{ .xxx{} .xx{} }</strong>多个选择器跳出</li>
+			<li><strong>@at-root (without: all)</strong>跳出说有</li>
+			<li><strong>@at-root (without: media)</strong> media跳出</li>
+			<li><strong>@at-root (without: support)</strong>?</li>
+		</ol>
+		<h2>函数</h2>
+		<p><strong>lighten($color,$amount)</strong>减淡（#，%）</p>
+		<p><strong>darken($color,$amount)</strong>加深（#，%）</p>
+		<p><strong>@function</strong>自定义函数 调用 name()</p>
+		<h2>判断</h2>
+		<p><strong>@if xxx @else if xxx @else</strong>if else</p>
+		<p><strong>if(true, 1px, 2px) => 1px</strong>三元</p>
 
 	</body>
 
