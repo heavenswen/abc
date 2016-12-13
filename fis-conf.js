@@ -11,10 +11,15 @@ var
 /*相对路径*/
 fis.hook('relative');
 fis.match('**', {
-	relative: true
-})
-
-//工作目录
+		relative: true
+	})
+	//// 开启模块化开发
+	//fis.hook('module');//模块化模式 本地地址模式是不行的
+	//
+	//fis.match('modules/*.*', {
+	//	isMod: true//自动模块化。只有在配置中的才能模块化
+	//});
+	//工作目录
 fis.media('server').match('**', {
 		deploy: [
 			fis.plugin('skip-packed'),
@@ -32,23 +37,13 @@ fis.media('web').match('**', {
 			})
 		]
 	})
-	//工作目录
-fis.media('web').match('**', {
-		deploy: [
-			fis.plugin('skip-packed'),
-			fis.plugin('local-deliver', {
-				to: releaseUrl
-			})
-		]
-	})
-	//编译
 	//fis3-parser-typescript es6 typescript
 fis.match('*.jsx', {
 	parser: fis.plugin('typescript'),
 	rExt: '.js',
 });
 // .es6 最终修改其后缀为 .js
-fis.match('*.es6', {
+fis.match('es6/js/*.*', {
 		parser: fis.plugin('translate-es6'),
 		rExt: '.js'
 	})
@@ -70,12 +65,12 @@ fis.match('::packager', {
 	})
 });
 /*合并_公共文件*/
-fis.match(js, {
-	packTo: '/js/' + name + '.js',
-})
-fis.match(stylecss, {
-	packTo: '/css/' + name + '.css',
-})
+//fis.match(js, {
+//	packTo: '/js/' + name + '.js',
+//})
+//fis.match(stylecss, {
+//	packTo: '/css/' + name + '.css',
+//})
 
 /*合并图片*/
 // 启用 fis-spriter-csssprites 插件
@@ -142,6 +137,9 @@ fis.media('dist').match('**', {
 })
 
 /*weixin测试*/
-fis.media('wx').match('{css,js}/*.*', {
+fis.media('wx').match('js/*', {
+	useHash: true, //文件指纹
+})
+fis.media('wx').match('css/*', {
 	useHash: true, //文件指纹
 })

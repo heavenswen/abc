@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0">
+<title>太阳城智能伞APP</title>
+<style>
+*{margin:0;padding:0;border:0;list-style:none;}
+body{font-family:"微软雅黑";color:#666;position:relative;font-size:13px;line-height:normal;}
+a:link,a:visited,a:hover,a:active{text-decoration:none;}
+
+.main{padding:0 10px;margin:0 auto;max-width:640px;box-sizing:border-box;text-align:center;}
+.logo{margin-top:40px;margin-bottom:30px;}
+.logo img{max-width:50%;}
+.content{margin-bottom:30px;}
+.app a{display:block;width:80%;line-height:24px;padding-top:10px;padding-bottom:10px;margin-bottom:20px;color:#fff;font-size:24px;background-color:#4a4a5b;border-radius:9px;margin:0 auto 20px auto;}
+i.ios{display:inline-block;width:24px;height:24px;background:url(ios.png) no-repeat;background-size:cover;}
+i.android{display:inline-block;width:24px;height:24px;background:url(android.png) no-repeat;background-size:cover;}
+.app a img{max-width:70%;}
+
+.hide_black{width:100%;height:100%;background:rgba(0,0,0,0.7);color:#fff;text-align:center;font-size:18px;position:fixed;top:0;left:0;z-index:99;display:none;}
+.hide_black img{max-width:50%;margin-bottom:15px;}
+</style>
+</head>
+
+<body>
+	<div class="main">
+    	<div class="logo"><img src="logo.png"/></div>
+        <div class="content">太阳城智能伞APP<br />开启智能新生活</div>
+        <div class="app">
+        	<a id="ios" class="ios" href="https://itunes.apple.com/us/app/id1138157888"><i class="ios"></i> IOS</a>
+            <a class="android" href="http://tyc.wei580.net/suncity_v19.apk"><i class="android"></i> Android</a>
+            <a class="we" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.suncitysmartu"> 微信下载</a>
+            <!--<a style="background:#fb687c;">其他平台</a>
+            <a style="background:#e39eda;">其他平台</a>-->
+        </div>
+    </div>
+	<div class="hide_black">
+    	<div style="margin-top:20px;padding-right:10px;">
+        	<div style="text-align:right;"><img src="arr.png"/></div>
+            <p>点击右上角，选择浏览器打开</p>
+        </div>
+    </div>
+	<script>
+		function isWeiXin(){
+			var ua = window.navigator.userAgent.toLowerCase();
+			if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+				return true;
+			}else{
+				return false; 
+			}
+		}
+		document.getElementById('ios').onclick = function(){
+			if(isWeiXin()){
+				document.querySelector('.hide_black').style.display = 'block';
+			}
+		}
+		document.querySelector('.hide_black').onclick = function(){
+			document.querySelector('.hide_black').style.display = '';
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

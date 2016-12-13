@@ -1,0 +1,7 @@
+@import 'common'; //css lib
+h3 {
+    @include box-shadow();
+}
+div {
+    @include block-pos-auto((10px,20px));
+}
