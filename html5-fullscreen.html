@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>fullscreen html5 api</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	<style>
+		/*设置全屏下样式*/
+		
+		:-webkit-full-screen img {
+			/*height: 60%;*/
+		}
+		
+		:-moz-full-screen img {
+			height: 60%;
+		}
+		
+		:-ms-full-screen img {
+			height: 60%;
+		}
+		
+		:-o-full-screen img {
+			height: 60%;
+		}
+		
+		:full-screen img {
+			height: 60%;
+		}
+		/**/
+		
+		div {
+			width: 400px;
+			height: 300px;
+			text-align: center;
+			background: #007AFF;
+		}
+		
+		img {
+			max-width: 100%;
+		}
+		
+		:-webkit-full-screen div,:-webkit-full-screen  video {
+			width:100%;
+		 	background: #FFC6C7;
+		}
+	</style>
+
+	<body>
+		<h1><center>html5 - fullscreen 全屏api</center></h1>
+		<!--poster 设置预览图片-->
+		<video controls poster="http://cdn.scratch.mit.edu/static/site/projects/thumbnails/217/4533.png" id="videoElement">
+			<source src="http://www.w3school.com.cn/i/movie.mp4" type="video/mp4" />
+		</video>
+		<div class=""></div>
+		<button type="button" id="videoBtn">视频全屏</button>
+		<button type="button" id="windowBtn">div全屏</button>
+		<script>
+			var fullScreen = function() {
+
+			}();
+
+			//			console.log(fullScreen);
+			// 找到支持的方法, 使用需要全屏的 element 调用 
+			function launchFullScreen(element) {
+				if(element.requestFullscreen) {
+					element.requestFullscreen();
+				} else if(element.mozRequestFullScreen) {
+					element.mozRequestFullScreen();
+				} else if(element.webkitRequestFullscreen) {
+					element.webkitRequestFullscreen();
+				} else if(element.msRequestFullscreen) {
+					element.msRequestFullscreen();
+				}
+			}
+			var video = document.getElementById("videoElement");
+			// 在支持全屏的浏览器中启动全屏 // 整个页面 
+			document.getElementById("videoBtn").addEventListener("click", function() {
+				launchFullScreen(video);
+
+			})
+			document.getElementById("windowBtn").addEventListener("click", function() {
+					launchFullScreen(document.querySelector("body"));
+
+				})
+				//全屏时触发fullscreenchange （moz||webkit||ms||''）
+			video.addEventListener('webkitfullscreenchange', function() {
+				var state = document.webkitIsFullScreen;
+				alert(state);
+			})
+
+			function fullscreenEnable() {
+
+				var isFullscreen = document.fullscreenEnabled ||
+
+					window.fullScreen ||
+
+					document.webkitIsFullScreen ||
+
+					document.msFullscreenEnabled;
+
+				//注意：要在用户授权全屏后才能准确获取当前的状态
+
+				if(isFullscreen) {
+
+					console.log('全屏模式');
+
+				} else {
+
+					console.log('非全屏模式');
+
+				}
+
+			}
+		</script>
+
+	</body>
+
+</html>

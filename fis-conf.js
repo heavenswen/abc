@@ -140,6 +140,6 @@ fis.media('dist').match('**', {
 fis.media('wx').match('js/*', {
 	useHash: true, //文件指纹
 })
-fis.media('wx').match('css/*', {
+fis.media('wx').10match('css/*', {
 	useHash: true, //文件指纹
 })

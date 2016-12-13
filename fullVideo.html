@@ -54,21 +54,9 @@
 
 		<div id="videobox">
 
-<<<<<<< HEAD
 			<video controls="controls" preload="preload" id="video" poster="http://img8.android.d.cn/android/new/game_image/40/7540/banner.png">
 				<source src="http://www.w3school.com.cn/i/movie.mp4" type="video/mp4" />
-=======
-			<video controls="controls" preload="preload" id="video" poster="poster.jpg">
-				<source src="http://www.w3school.com.cn/i/movie.ogg" type="video/ogg" />
-				<source src="./movie.mp4" type="video/mp4" />
-				<source src="./movie.webm" type="video/webm" />
-				<object data="./movie.mp4" width="100%" height="100%">
-<embed width="100%" height="100%" src="./movie.swf" />
-</object>
-
->>>>>>> dc3a53ce2499e64d18b748bcf58dc4e74d60c08f
-			</video>
-			<button id="fullScreenBtn">全屏</button>
+				<button id="fullScreenBtn">全屏</button>
 		</div>
 
 		<script type="text/javascript">
@@ -151,13 +139,10 @@
 					}
 				}, 5 * 1000);
 			}, false);
-<<<<<<< HEAD
-			
-			document.getElementById('video').addEventListener('exitFullscreen',function(){
+
+			document.addEventListener('fullscreenchange', function() {
 				alert("")
 			})
-=======
->>>>>>> dc3a53ce2499e64d18b748bcf58dc4e74d60c08f
 		</script>
 	</body>
 
