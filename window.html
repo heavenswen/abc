@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>打开同一个窗口</title>
+	</head>
+
+	<body>
+		<a class="js_a" href="rem.html">点击弹出</a>
+		<a class="js_a" href="app.html">点击弹出</a>
+		<script>
+			var _a = document.querySelectorAll(".js_a");
+			for(i = 0; i < _a.length; i++) {
+				_a[i].addEventListener("click", function(e) {
+					var url = this.href;
+					console.info(url);
+					window.open(url, "load")
+					e.preventDefault()
+
+				}, false)
+			}
+		</script>
+	</body>
+
+</html>
