@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>XMLHttpRequest 和 history 优化体验</title>
+	</head>
+
+	<body>
+		<h1>
+			<center>xhr+history</center>
+		</h1>
+		<ul>
+			<h3>目的</h3>
+			<li>封装自己的ajax</li>
+			<li>封着历史记录器和连search获取</li>
+		</ul>
+		<nav>
+			<a href="../app.html">app</a>
+		</nav>
+
+		<div id="con">
+
+		</div>
+
+		<script type="text/javascript">
+			//创建异步
+			var xhr = new XMLHttpRequest();
+			var url = '../app.html';
+			//打开（ ）
+			xhr.open('get', url, true);
+			xhr.send(null);
+			xhr.onload = function() {
+				var data = xhr.responseText;
+				var xm = xhr.responseXML;
+				document.querySelector("#con").innerHTML=data;
+			}
+		</script>
+	</body>
+
+</html>
