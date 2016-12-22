@@ -1,12 +1,13 @@
-//基础库
+//Q基础库
 //@import "*";
 //常量
 $sm: 768; //小屏幕比例
 $md: 992; //中屛
 $lg: 1200; //屏幕
 //标签
-$h: h1,h2,h3,h4,h5,h6; // 利用absolute 上下居中
+$hs: h1,h2,h3,h4,h5,h6; 
 //定位
+// 利用absolute 上下居中
 @mixin pos-mid {
     position: absolute;
     top: 50%;
