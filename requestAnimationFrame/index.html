@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>requestAnimationFrame请求动画帧</title>
+	</head>
+
+	<body>
+		<span id="num">0</span><br/>
+		<span id="time">0</span>
+		<script>
+			(function() {
+				/*requestAnimationFrame兼容*/
+				var lastTime = 0;
+				var vendors = ['webkit', 'moz'];
+				for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+					window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+					window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || // Webkit中此取消方法的名字变了
+						window[vendors[x] + 'CancelRequestAnimationFrame'];
+				}
+
+				if(!window.requestAnimationFrame) {
+					//使用 setTimeout替代 最小16.7ms
+					window.requestAnimationFrame = function(callback, element) {
+						var currTime = new Date().getTime();
+						var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
+						var id = window.setTimeout(function() {
+							callback(currTime + timeToCall);
+						}, timeToCall);
+						lastTime = currTime + timeToCall;
+						return id;
+					};
+				}
+				if(!window.cancelAnimationFrame) {
+					window.cancelAnimationFrame = function(id) {
+						clearTimeout(id);
+					};
+				}
+			}());
+
+			var obj = document.querySelector('#num');
+			var b = 100;
+
+			function animate(t) {
+				b--;
+				if(b) {
+					requestAnimationFrame(animate);
+				}
+				var num = Number(obj.innerHTML) + 1;
+				obj.innerHTML = num;
+
+				console.log(t);
+			}
+			animate();
+		</script>
+	</body>
+
+</html>
