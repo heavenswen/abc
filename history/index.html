@@ -16,7 +16,8 @@
 			<li>封着历史记录器和连search获取</li>
 		</ul>
 		<nav>
-			<a href="../app.html">app</a>
+			<a data-href="../input.html">input</a>
+			<a data-href="../app.html">app</a>
 		</nav>
 
 		<div id="con">
@@ -24,16 +25,57 @@
 		</div>
 
 		<script type="text/javascript">
-			//创建异步
-			var xhr = new XMLHttpRequest();
-			var url = '../app.html';
-			//打开（ ）
-			xhr.open('get', url, true);
-			xhr.send(null);
-			xhr.onload = function() {
-				var data = xhr.responseText;
-				var xm = xhr.responseXML;
-				document.querySelector("#con").innerHTML=data;
+			function onload(url, fun) {
+				//创建异步
+				var xhr = new XMLHttpRequest();
+				//打开（ ）
+				xhr.open('get', url, true);
+				xhr.send(null);
+				xhr.onload = function() {
+					var data = xhr.responseText;
+					var xm = xhr.responseXML;
+					fun(data);
+					//document.querySelector("#con").innerHTML = data;
+				}
+
+			}
+
+			function route(e) {
+				var src = this.dataset.href; //获得链接
+				var u = '';
+				src.match(/[\/]{1}(.*)[\.]$/);
+
+				//获得 /后的值
+				if(src.match(/[\/]/g)) {
+					var arr = src.split('/');
+					u = arr[arr.length - 1];
+				};
+				//获得点前的值	
+				if(u.match(/[\.]/g)) {
+					var arr = u.split('.');
+					u = arr[arr.length - 2];
+				};
+
+				var host = window.location.href;
+				console.log(u);
+				//路由
+				window.history.pushState({
+					'url': src
+				}, "", "#/" + u);
+
+				//load page
+				onload(src, function(e) {
+					document.querySelector("#con").innerHTML = e;
+				});
+
+				e.preventDefault() //阻止默认，火狐必须在第一层从function(e)中获得。
+				return false;
+
+			};
+			//tragger
+			var objs = document.querySelectorAll("a");
+			for(var i = 0; i < objs.length; i++) {
+				objs[i].addEventListener("click", route);
 			}
 		</script>
 	</body>
