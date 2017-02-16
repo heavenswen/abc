@@ -3,12 +3,12 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>XMLHttpRequest 和 history 优化体验</title>
+		<title>路由思路</title>
 	</head>
 
 	<body>
 		<h1>
-			<center>xhr+history</center>
+			<center>XMLHttpRequest 和 history 优化体验 </center>
 		</h1>
 		<ul>
 			<h3>目的</h3>
@@ -16,7 +16,7 @@
 			<li>封着历史记录器和连search获取</li>
 		</ul>
 		<nav>
-			<a data-href="../input.html">input</a>
+			<a data-href="../input.html?page=1&a=查询">input</a>
 			<a data-href="../app.html">app</a>
 		</nav>
 
@@ -39,44 +39,69 @@
 				}
 
 			}
+			//load
+			function openPage(src) {
+				if(!src) {
+					//不存在参时
+					var state = history.state; //获得历史
+					if(state) {
+						src = state.url;
+					} else {
+						//第一次加载页面
+						var url = window.location.href;
+						url = url.split('#/');
+						src = url[1]; //获得第一个参
+						src = src + ".html"; //加上尾缀
+					}
+				}
+				//存在参时
+				if(src) {
+					onload(src, function(e) {
+						document.querySelector("#con").innerHTML = e;
+					});
+				}
+			};
+			window.addEventListener("load", openPage())
 
 			function route(e) {
 				var src = this.dataset.href; //获得链接
 				var u = '';
-				src.match(/[\/]{1}(.*)[\.]$/);
 
-				//获得 /后的值
-				if(src.match(/[\/]/g)) {
-					var arr = src.split('/');
-					u = arr[arr.length - 1];
-				};
-				//获得点前的值	
-				if(u.match(/[\.]/g)) {
-					var arr = u.split('.');
-					u = arr[arr.length - 2];
+				//获得后缀
+				var pagetype = src.match(/[[\.]{1}[a-z]+/ig);
+				console.log(pagetype);
+				//隐藏后缀
+				if(pagetype) {
+					u = src.replace(pagetype, '');
+				} else {
+					u = src;
 				};
 
-				var host = window.location.href;
-				console.log(u);
 				//路由
 				window.history.pushState({
 					'url': src
 				}, "", "#/" + u);
 
 				//load page
-				onload(src, function(e) {
-					document.querySelector("#con").innerHTML = e;
-				});
+				openPage(src);
 
 				e.preventDefault() //阻止默认，火狐必须在第一层从function(e)中获得。
 				return false;
 
 			};
-			//tragger
+			//tragger object
 			var objs = document.querySelectorAll("a");
 			for(var i = 0; i < objs.length; i++) {
 				objs[i].addEventListener("click", route);
 			}
+			//触发历史事件时执行
+			window.addEventListener("popstate", function() {
+				var state = history.state;
+				if(state) {
+					var src = state.url;
+					openPage(src);
+				}
+			})
 		</script>
 	</body>
 
