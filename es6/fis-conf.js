@@ -21,3 +21,7 @@ fis.match('*.scss', {
 	rExt: '.css',
 	useSprite: true
 })
+//js 引人css
+fis.match('*.{js,es,es6,jsx,ts,tsx}', {
+  preprocessor: fis.plugin('js-require-css')
+})

@@ -5,9 +5,6 @@
 		<meta charset="UTF-8">
 		<title>es6 模块化 学习</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-
-		<script type="text/javascript" src="./static/mod.js"></script>
-		<!--必须引入 -->
 	</head>
 
 	<body>
@@ -17,13 +14,11 @@
 			<li>
 				modjs 不能对 jquery 进行模块化，所以无法执行jquery
 			</li>
-			<li>
-				无法引入css
-			</li>
-			<h2>fi3 编译</h2>
-			<li>不保留文字模版中的换行</li>
+			
 		</ul>
-
+<script src="static/jquery.js"></script><!--ignore-->
+<script type="text/javascript" src="./static/mod.js"></script>
+		<!--必须引入 -->
 		<script>
 		
 			var log = function() {

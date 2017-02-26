@@ -1,7 +1,4 @@
-//import JQuery from "jquery";
-
-//var JQuery = require("jquery");
-
-//JQuery(function(){
-	console.log(11);
-//})
+(function($){
+	
+	console.log('jquery')
+})(window.jQuery)

@@ -40,9 +40,3 @@ let s = str.charAt(0); //'字'
 	${s}回车</p>`;
 	console.log(str4);
 }
-//string.raw(); 转义'\'字符串
-{
-	var s1 = `字符串\\`;
-	s1 =  string.raw(s1);
-	console.log(s1);
-}
