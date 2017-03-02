@@ -11,39 +11,55 @@ var release = './dist/'; //产出路径
 //		relative: true
 //	})
 //// 开启模块化开发
-fis.hook('module'); //模块化模式 本地地址模式是不行的
-fis.match('modules/*.*', {
-	isMod: true //自动模块化。只有在配置中的才能模块化
+
+// 采用 commonjs 模块化方案。
+fis.hook('commonjs', {
+  baseUrl: './module',
+  extList: ['.js', '.jsx']
 });
+
+//components下面的所有js资源都是组件化资源
+
+fis.match('/components/**.js', {
+	isMod: true
+});
+
+// 编译所有后缀为 jsx 的文件为 js
+fis.match('/module/*.js', {
+	parser: fis.plugin('babel-5.x', {
+		sourceMaps: true
+	}),
+	rExt: '.js',
+	isMod: true,
+});
+
 //支持 typescript、es6 或者 jsx 编译成 js。速度相比 babel 略快，但是 es7 跟进较慢。
 fis.match('*.jsx', {
-	parser: fis.plugin('typescript')
-})
-//编译es6 to es5
-fis.match('module/*.*', {
-		parser: fis.plugin('translate-es6'),
-		rExt: '.js'
+		parser: fis.plugin('typescript')
 	})
-//编译less文件
+	//编译es6 to es5
+	//fis.match('./module/*.js', {
+	//		parser: fis.plugin('translate-es6'),
+	//		rExt: '.js'
+	//	})
+	//编译less文件
 fis.match('*.less', {
 		parser: fis.plugin('less-2.x'),
 		rExt: '.css'
 	})
-//编译scss文件
+	//编译scss文件
 fis.match('*.scss', {
 		parser: fis.plugin('node-sass'),
 		rExt: '.css',
 		useSprite: true
 	})
-//允许你在 js 中直接 require css 文件。
-//fis.match('*.{js,es,es6,jsx,ts,tsx}', {
-//	preprocessor: fis.plugin('js-require-css')
-//})
-//合并成单个资源
-fis.match('::packager', {
-	postpackager: fis.plugin('loader', {
-		allInOne: false //是否合并成唯一文件 css js
+	//允许你在 js 中直接 require css 文件。
+fis.match('module/*.{js,es,es6,jsx,ts,tsx}', {
+		preprocessor: fis.plugin('js-require-css')
 	})
+	//合并成单个资源
+fis.match('::packager', {
+	postpackager: fis.plugin('loader')
 });
 
 /*合并_公共文件*/
@@ -78,11 +94,14 @@ fis.match("fis-conf.js", {
 })
 
 fis.match('*.{less,md,ini,log}', {
-	loaderLang: false,
-	release: false
-})
-
-//发布的时候忽略以下目录或文件
+		loaderLang: false,
+		release: false
+	})
+	//_为嵌入模块，将不被发布
+fis.match('_*.*', {
+		release: false
+	})
+	//发布的时候忽略以下目录或文件
 fis.set('project.ignore', [
 	'output/**',
 	'node_modules/**',
