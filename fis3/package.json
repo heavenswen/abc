@@ -20,6 +20,8 @@
     "url": "https://github.com/fis-scaffold/default/issues"
   },
   "homepage": "https://github.com/fis-scaffold/default",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "jquery": "^3.1.1"
   }
 }
