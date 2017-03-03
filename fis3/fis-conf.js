@@ -14,19 +14,23 @@ var release = './dist/'; //产出路径
 
 // 采用 commonjs 模块化方案。
 fis.hook('commonjs', {
-  baseUrl: './module',
-  extList: ['.js', '.jsx']
+  //baseUrl: './module',
+ extList: ['.js', '.jsx', '.es', '.ts', '.tsx']
 });
 
 //components下面的所有js资源都是组件化资源
-
-// 改用 npm 方案，而不是用 fis-components
-fis.hook('node_modules');
-
 fis.match('/components/**.js', {
 	isMod: true
 });
+//关闭 fis3-componets
+fis.unhook('components')
+fis.hook('node_modules')
 
+// 改用 npm 方案，而不是用 fis-components
+fis.match('/node_modules/**.js', {
+    isMod: true,
+    useSameNameRequire: true
+});
 // 编译所有后缀为 jsx 的文件为 js
 fis.match('/module/*.js', {
 	parser: fis.plugin('babel-5.x', {
@@ -136,14 +140,14 @@ fis.media('web').match('**', {
 	]
 })
 //除module的全部压缩
-fis.match(/[^module\/]\/(.*)\.js/, {
+fis.media('web').match(/[^module\/]\/(.*)\.js/, {
 	// fis-optimizer-uglify-js 插件进行压缩，已内置
 	optimizer: fis.plugin('uglify-js')
 });
-fis.media('web').match('*.js', {
-	// fis-optimizer-uglify-js 插件进行压缩，已内置
-	optimizer: fis.plugin('uglify-js')
-});
+//fis.media('web').match('*.js', {
+//	// fis-optimizer-uglify-js 插件进行压缩，已内置
+//	optimizer: fis.plugin('uglify-js')
+//});
 fis.media('web').match('*.css', {
 	// fis-optimizer-clean-css 插件进行压缩，已内置
 	optimizer: fis.plugin('clean-css')
