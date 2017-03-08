@@ -1,8 +1,6 @@
 import Vue from "vue" 
 
-var vm = new Vue({
-	el: '#element',
-	data:data
-})
-
-var data = {a:1}
+export default {
+  props: ['message'],
+  template: '<span>{{ message }}</span>'
+} as Vue.ComponentOptions<Vue>

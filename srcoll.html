@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>requestAnimationFrame</title>
+	</head>
+	<style>
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+		}
+		
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		
+		section {
+			width: 100%;
+			height: 100%;
+			border-bottom: 1px solid #39f;
+			box-sizing: border-box;
+		}
+		
+		.mask {
+			display: block;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+		
+		#a {
+			background: #fcc;
+		}
+		
+		#b {
+			background: #ffc;
+		}
+		
+		#c {
+			background: #9f3;
+		}
+	</style>
+
+	<body style="pointer-events: none;">
+		<section id="a" style="pointer-events: none;">
+			1
+		</section>
+		<section id="b">
+			2
+		</section>
+		<section id="c">
+			3
+		</section>
+		<div class="mask"></div>
+		<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script>
+			var a = document.querySelector("#a"); //设置对象
+			var a_h = a.clientHeight;
+			var animate; //动画
+			var bTop = document.body.scrollTop; //原始高度
+			var state = "top"; //允许下滚动
+
+			function scrollfun(e) {
+				var top = document.body.scrollTop; //当前高度
+				console.log(state)
+				if(top < a_h && state == 'top') {
+					window.removeEventListener("scroll", scrollfun, !1);
+					animate = window.requestAnimationFrame(animateScroll); //执行动画
+
+				} else {
+					//停止动画
+					cancelAnimationFrame(animate);
+				}
+
+				function animateScroll() {
+					var top = document.body.scrollTop; //当前高度
+					console.log("animateScroll")
+					window.onwheel = e.preventDefault;
+					window.onmousewheel = document.onmousewheel = e.preventDefault;
+					window.ontouchmove = e.preventDefault;
+					document.body.scrollTop = top + 30;
+					if(document.body.scrollTop < a_h) {
+						animate = window.requestAnimationFrame(animateScroll); //执行动画
+
+					} else if(top >= a_h) {
+						state = "down";
+						bTop = document.body.scrollTop;
+						cancelAnimationFrame(animate);
+					}
+					e.preventDefault
+				}
+				e.preventDefault
+			}
+
+			window.addEventListener("scroll", scrollfun, !1);
+		</script>
+	</body>
+
+</html>
