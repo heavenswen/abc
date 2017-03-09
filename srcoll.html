@@ -69,7 +69,8 @@
 				var top = document.body.scrollTop; //当前高度
 				console.log(state)
 				if(top < a_h && state == 'top') {
-					window.removeEventListener("scroll", scrollfun, !1);
+					window.onscroll = e.preventDefault;
+					document.removeEventListener("scroll", scrollfun, !1);
 					animate = window.requestAnimationFrame(animateScroll); //执行动画
 
 				} else {
@@ -80,8 +81,10 @@
 				function animateScroll() {
 					var top = document.body.scrollTop; //当前高度
 					console.log("animateScroll")
+					window.onscroll = e.preventDefault;
 					window.onwheel = e.preventDefault;
 					window.onmousewheel = document.onmousewheel = e.preventDefault;
+					document.addEventListener("DOMMouseScroll", e.preventDefault, !1);
 					window.ontouchmove = e.preventDefault;
 					document.body.scrollTop = top + 30;
 					if(document.body.scrollTop < a_h) {
@@ -97,7 +100,7 @@
 				e.preventDefault
 			}
 
-			window.addEventListener("scroll", scrollfun, !1);
+			document.addEventListener("scroll", scrollfun, !1);
 		</script>
 	</body>
 

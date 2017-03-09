@@ -111,18 +111,18 @@
 		<h3>表单控制</h3>
 		<div id="form">
 			<template>
-				<h5>文本输入框</h5>
+				<h5>文本输入框 v-model='textarea'</h5>
 				<textarea v-model='textarea'></textarea>
 				<p>输入的内容:{{textarea}}</p>
 			</template>
 			<template>
-				<h5>单选项</h5>
+				<h5>单选项 v-model='radio' </h5>
 				<p><input type="radio" id="one" value="男" v-model='radio' /><label for="one">男</label></p>
 				<p><input type="radio" id='two' value="女" v-model='radio' /><label for="two">女</label></p>
 				<p>输入的内容:{{radio}}</p>
 			</template>
 			<template>
-				<h5>下拉单选</h5>
+				<h5>下拉单选 v-model='select'</h5>
 				<select v-model='select'>
 					<option>option1</option>
 					<option>option2</option>
@@ -131,7 +131,7 @@
 				<p>输入的内容:{{select}}</p>
 			</template>
 			<template>
-				<h5>选中框状态</h5>
+				<h5>选中框状态 v-model='checked'</h5>
 				<p><input type="checkbox" v-model='checked'>{{checked}}</p>
 			</template>
 		</div>
@@ -148,6 +148,7 @@
 		</script>
 		<hr />
 		<h3 style="text-align: center;">组件</h3>
+		<h3>全局组件Vue.component</h3>
 		<div id="element">
 			<vue-name></vue-name>
 			<vue-add></vue-add>
@@ -157,12 +158,14 @@
 		<script>
 			//全局注册
 			var txt = {
-				text: "全局可用",
+				text: "全局 作用于所有 vue",
 				num: 0,
-			}; //全局
+			};
+			//全局组件
 			Vue.component("vue-name", {
-				template: "<h2>{{text}}</h2>",
+				template: "<h5>{{text}}</h5>",
 				data: function() {
+					//执行组件时传递对象 使用{{读取key}}
 					return txt;
 				}
 			})
@@ -174,12 +177,14 @@
 			})
 			new Vue({
 				el: "#element",
+
 			})
 		</script>
 		<hr/>
 		<div id="child">
+			<!-- 全局 所用 vue 生效 -->
 			<vue-name></vue-name>
-			<h5>局部注册</h5>
+			<h5>局部注册 components</h5>
 			<vue-child></vue-child>
 			<vue-child></vue-child>
 			<vue-child></vue-child>
@@ -204,12 +209,26 @@
 			})
 		</script>
 		<hr />
-
+		<h2>解析说明</h2>
+		<p>
+			当使用 DOM 作为模版时（例如，将 el 选项挂载到一个已存在的元素上）, 你会受到 HTML 的一些限制，因为 Vue 只有在浏览器解析和标准化 HTML 后才能获取模版内容。尤其像这些元素 ul ， ol， table ， select 限制了能被它包裹的元素， option 只能出现在其它元素内部。</p>
+		<section id="dom">
+			<vue-name></vue-name>
+			<ul>
+				<li is="vue-name"></li>
+			</ul>
+		</section>
+		<script>
+			new Vue({
+				el: "#dom"
+			})
+		</script>
+		<hr/>
 		<h3>传参 props</h3>
 		<section id="props">
-			<child data-str='100'></child>
+			<child></child>
 		</section>
-		<p><small>HTML 特性不区分大小写。当使用非字符串模版时，名字形式为 camelCase 的 prop 用作特性时，需要转为 kebab-case（短横线隔开）:</small></p>
+		<p><small>HTML 特性不区分大小写。当使用非字符串模版时，名字形式为 camelCase(驼峰) 的 prop 用作特性时，需要转为 kebab-case（短横线隔开）:</small></p>
 		<script>
 			new Vue({
 				el: "#props",
@@ -217,7 +236,32 @@
 					// <my-component> 将只在父模板可用
 					'child': {
 						template: '<span>{{ dataStr }}</span>',
-						props: ['dataStr'], //获取一个标签上data-str的值
+						props: {
+							'dataStr': {
+								/*	类型
+								 * String
+									Number
+									Boolean
+									Function
+									Object
+									Array*/
+								type: [Number], //设定类型
+								//required: true, //强制类型
+								default: function() {
+									//默认值  不存在props则 return
+									return 11
+								},
+								validator: function(value) {
+									//验证 则 tip
+									return value > 10
+								}
+							}
+						}, //获取一个标签上data-str的值
+						computed: {
+							normalizedSize: function() {
+								return this.dataStr + '10';
+							}
+						}
 					}
 				}
 			});
@@ -226,53 +270,48 @@
 		<h3>动态参数</h3>
 		<section id="prop">
 			<p><input type="text" placeholder="输入一个参数" v-model='str'>
-				<child v-bind:data-str='str'></child>
+				<my-prop :data-str='str'></my-prop>
 			</p>
 		</section>
 		<p><small>把v-model 用 v-bind 绑定到 模版上 可以实现动态参数</small></p>
-		<P><small>v-bind:prop-name='1' 时'1'为"number" </small></P>
+		<P>[不允许子级改变父级参]prop 是单向绑定的：当父组件的属性变化时，子</P>
+
 		<script>
+			Vue.component("my-prop", {
+				template: "<input type='text' placeholder='子级无法响应父级' v-model='dataStr' >",
+				props: ['dataStr'],
+			});
 			new Vue({
 				el: "#prop",
 				data: {
-					str: 1,
+					str: null
 				},
-				components: {
-					// <my-component> 将只在父模板可用
-					'child': {
-						template: "<input type='text' v-model='dataStr' />",
-						//props 的数据是单向数据流
-						props: {
-							dataStr: {
-								type: [Number], //指定类型
-								required: true, //必须
-								//当类型不匹配建报错
-								default: function() {
-									return 100;
-								}, //默认值   or default:100; 不存在时
-								validator: function(v) {
-									return v > 0;
-								}, //自定义规则 例： 必须大于0
-							}
-						}, //获取一个标签上的值
-					}
-				}
+
 			})
 		</script>
 		<hr />
-		<h3>自定义绑定事件</h3>
+
+		<hr />
+		<h3>自定义绑定事件 v-on </h3>
 		<section id="on">
 			<p>总数:{{total}}</p>
-			<vue-add v-on:add='totalFun'></vue-add>
+			<vue-add v-on:addd='totalFun'></vue-add>
 			<span>+</span>
-			<vue-add v-on:add='totalFun'></vue-add>
+			<vue-add v-on:addd='totalFun' v-on:click.native="nativeFun"></vue-add>
 			<ul>
 				<li>使用 $on(eventName) 监听事件</li>
 				<p>另外，父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件。</p>
 				<li>使用 $emit(eventName) 触发事件</li>
+				<li>元素上监听一个原生事件。可以使用 .native 修饰 v-on</li>
+				<li>nameVue.$emit(eventName) 也可以用触发其他的vue的方法</li>
 			</ul>
 		</section>
 		<script>
+			//< v-on:click.native="nativeFun" >
+			function nativeFun(e) {
+				console.log(e)
+
+			}
 			new Vue({
 				el: "#on",
 				//数据
@@ -284,17 +323,17 @@
 					//创建一个组件
 					"vue-add": {
 						//组件模版
-						template: "<button type='button' @click='add'>{{total}}</button>",
+						template: "<button type='button' @click='add'>{{totalChild}}</button>",
 						//
 						data: function() {
 							return {
-								total: 0
+								totalChild: 0
 							};
 						},
 						methods: {
 							add: function() {
-								this.total += 1;
-								this.$emit("add"); //触发add 
+								this.totalChild += 1;
+								this.$emit("addd"); //触发父级:add事件 达到响应效果
 							},
 						}
 
@@ -312,10 +351,10 @@
 		</script>
 		<hr />
 		<h3>input 组件</h3>
+		<p>v-model 相当于 v-bind:value='message' v-on:input='message = $enent.target.value' </p>
 		<div id="v-model-example">
 			<p>{{ message }}</p>
 			<my-input label="Message" v-model='message'></my-input>
-			<!-- v-model 相当于 v-bind:value='message' v-on:input='message = $enent.target.value' -->
 		</div>
 		<script>
 			Vue.component('my-input', {
@@ -325,7 +364,7 @@
       <input v-bind:id="randomId" v-bind:value="value" v-on:input="onInput">\
     </div>\
   ',
-				props: ['value', 'label'],
+				props: ['value', 'label'], //接收参数
 				data: function() {
 					return {
 						randomId: 'input-' + Math.random()
@@ -333,6 +372,8 @@
 				},
 				methods: {
 					onInput: function(event) {
+						//(functionName,value)
+						console.log(event)
 						this.$emit('input', event.target.value)
 					}
 				},
@@ -345,24 +386,86 @@
 			})
 		</script>
 		<hr />
-		<h3>slot</h3>
-		<p>父组件的内容将被抛弃，除非子组件模板包含 <slot> 。如果子组件模板只有一个没有特性的 slot，父组件整个内容片段 将插到 slot 所在的 DOM 位置并替换掉 slot 标签。</p>
+		<h3>slot 分发内容</h3>
+		<fieldset>
+			<p>&lt;app&gt;<br/> &lt;app-header&gt;&lt;/app-header&gt;
+				<br/> &lt;app-footer&gt;&lt;/app-footer&gt;
+				<br/> &lt;/app&gt;
+			</p>
+		</fieldset>
+		<p>父组件的内容将被抛弃，除非子组件模板包含 slot 。如果子组件模板只有一个没有特性的 slot，父组件整个内容片段 将插到 slot 所在的 DOM 位置并替换掉 slot 标签。</p>
 		<section id="slot">
 			<app-slot>
-				<p>当内不存在slot标签时不显示</p>				
+				<p>当内存在slot标签，获取内容</p>
 			</app-slot>
 		</section>
-		
+
 		<script>
 			new Vue({
-				el:"#slot",
-				components:{
-					"app-slot":{
-						template:"<div><h2>I'm the child title</h2><slot>如果没有分发内容则显示我。</slot></div>",
+				el: "#slot",
+				components: {
+					"app-slot": {
+						template: "<div><h2>slot的用法</h2><slot>如果没有分发内容则显示我。</slot></div>",
 					}
 				}
 			})
 		</script>
+		<section>
+			<h3>slot 内容分发</h3>
+
+			<p>&lt;slot&gt; 元素可以用一个特殊的属性 name 来配置如何分发内容。多个 slot 可以有不同的名字。具名 slot 将匹配内容片段中有对应 slot 特性的元素。</p>
+			<div id="slotName">
+				<h5>slot='name'</h5>
+				<slot-content>
+					<header slot='header'>分发header内容</header>
+					<footer slot='footer'>分发footer内容</slot>
+				</slot-content>
+			</div>
+			<script>
+				new Vue({
+					el: "#slotName",
+					components: {
+						"slot-content": {
+							template: "<div class='content'><slot name='header'>header内容部分</slot><div name='con'>正文内容</div><slot name='footer'>footer内容</slot><div>"
+						}
+
+					}
+				})
+			</script>
+		</section>
+		<section>
+			<h3>作用域插槽 传递参数</h3>
+			<p>作用域插槽是一种特殊类型的插槽，用作（可以传入数据的）可重用模板,而不是已渲染元素。 在子组件中，只需将数据传递到插槽，就像你将 prop 传递给组件一样： 在父级中，具有特殊属性 scope 的&lt;template&gt; 元素，表示它是作用域插槽的模板。scope 的值对应一个临时变量名，此变量接收从子组件中传递的 prop 对象：
+			</p>
+			<h4>例</h4>
+			<div id="scop">
+				<my-ul :text="items">
+					<template slot='ul' scope="props">
+						<li>props.text</li>
+					</template>
+				</my-ul>
+			</div>
+			<script>
+				new Vue({
+					el: "#scop",
+					data: {
+						items: [{
+							text: 1
+						}, {
+							text: 2
+						}, {
+							text: 3
+						}]
+					},
+					components: {
+						"my-ul": {
+							template: "<ol><slot name='ul' v-for=\"item in items\" :text=\"item.text\">数组</slot></ol>",
+							
+						}
+					}
+				})
+			</script>
+		</section>
 	</body>
 
 </html>
