@@ -3,8 +3,8 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>vuejs 2.0</title>
-		<script style="text-align: ;" src="dist/vue.js"></script>
+		<title>vuejs 2</title>
+		<script src="//cdn.bootcss.com/vue/2.2.1/vue.js"></script>
 	</head>
 
 	<body>
@@ -426,7 +426,7 @@
 					el: "#slotName",
 					components: {
 						"slot-content": {
-							template: "<div class='content'><slot name='header'>header内容部分</slot><div name='con'>正文内容</div><slot name='footer'>footer内容</slot><div>"
+							template: "<div class='content'><slot name='header'>header内容部分</slot><content name='con'>正文内容</content><slot name='footer'>footer内容</slot></div>"
 						}
 
 					}
@@ -439,9 +439,9 @@
 			</p>
 			<h4>例</h4>
 			<div id="scop">
-				<my-ul :text="items">
+				<my-ul :data-item='items'>
 					<template slot='ul' scope="props">
-						<li>props.text</li>
+						<li>{{props.text-1}}</li>
 					</template>
 				</my-ul>
 			</div>
@@ -459,13 +459,157 @@
 					},
 					components: {
 						"my-ul": {
-							template: "<ol><slot name='ul' v-for=\"item in items\" :text=\"item.text\">数组</slot></ol>",
-							
+							template: "<ol><slot name='ul' v-for=\"item in dataItem\" :text=\"item.text\">数组</slot></ol>",
+							props: ["dataItem"], //props 动态参
 						}
 					}
 				})
 			</script>
 		</section>
+		<section>
+			<h3>动态组件</h3>
+			<p>多个组件可以使用同一个挂载点，然后动态地在它们之间切换。使用保留的 component 元素，动态地绑定到它的 is 特性：
+				<p>
+					<fieldset id="component">
+						<legend>
+							<select v-model='view'>
+								<option>con</option>
+								<option>con1</option>
+								<option>con2</option>
+							</select>
+						</legend>
+						<i>如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 <strong>keep-alive</strong> 指令参数：</i>
+						<keep-alive>
+							<component v-bind:is='view'></component>
+						</keep-alive>
+
+					</fieldset>
+					<script>
+						new Vue({
+							el: "#component",
+							data: {
+								view: "con"
+							},
+							components: {
+								con: {
+									template: "<p style='color:red'>动态模版1</p>"
+								},
+								con1: {
+									template: "<p style='color:green'>动态模版2</p>"
+								},
+								con2: {
+									template: '<p style="color:blue">动态模版3</p>'
+								}
+							}
+						})
+					</script>
+		</section>
+		<hr />
+		<section>
+			<h3><center>杂项</center></h3>
+			<h4>refs 指定组件</h4>
+			<div id="ref">
+				<p>$refs 只在组件渲染完成后才填充，并且它是非响应式的。它仅仅作为一个直接访问子组件的应急方案——应当避免在模版或计算属性中使用 $refs</p>
+				<user-profile :data-text='str' ref="profile" />
+			</div>
+			<script type="text/x-template" id="x-template">
+				<!--x-template 模版-->
+				<p>{{dataText}}</p>
+			</script>
+			<script>
+				var parent = new Vue({
+					el: '#ref',
+					data: {
+						"str": "文字内容"
+					},
+					components: {
+						"user-profile": {
+							//x-template id
+							template: "#x-template",
+							props: ['dataText']
+
+						}
+					},
+					watch: {
+						//监控变化
+						"str": {
+							handler: function(val, oldVal) {
+								//改变时执行
+
+							},
+							deep: true //深度模式
+						}
+					}
+
+				})
+				parent.str = '使用x-template模版';
+				// 访问子组件
+				var child = parent.$refs.profile;
+			</script>
+		</section>
+		<section>
+			<h3>v-once 底开销静态组件</h3>
+			<p>尽管在 Vue 中渲染 HTML 很快，不过当组件中包含大量静态内容时，可以考虑使用 v-once 将渲染结果缓存起来，就像这样</p>
+			<p>Vue.component(&#x27;terms-of-service&#x27;, { template: &#x27; &lt;div v-once&gt; &lt;h1&gt;Terms of Service&lt;/h1&gt; ... a lot of static content ... &lt;/div&gt; &#x27; })
+			</p>
+		</section>
+		<hr />
+		<section>
+			<h3><center>动画效果</center></h3>
+			<ul>
+				<li>在 CSS 过渡和动画中自动应用 class</li>
+				<li>可以配合使用第三方 CSS 动画库，如 Animate.css</li>
+				<li>在过渡钩子函数中使用 JavaScript 直接操作 DOM</li>
+				<li>可以配合使用第三方 JavaScript 动画库，如 Velocity.js</li>
+			</ul>
+			<style>
+				.fade-enter-active,
+				.fade0-leave-active {
+					transition: all 5s
+				}
+				
+				.fade-enter,
+				.fade-leave-to
+				/* .fade-leave-active in <2.1.8 */
+				
+				{
+					opacity: 0
+				}
+			</style>
+			<fieldset id='transition'>
+				<legend>transition 组件</legend>
+				<p>Vue 提供了 <code>transition</code> 的封装组件，在下列情形中，可以给任何元素和组件添加 entering/leaving 过渡</p>
+				<ul>
+					<li>条件渲染 （使用 <code>v-if</code>）</li>
+					<li>条件展示 （使用 <code>v-show</code>）</li>
+					<li>动态组件</li>
+					<li>组件根节点</li>
+					<li>name 会将 元素添加一个 name+"leave"  -active过渡属性 -to 动画过渡结束</li>
+				</ul>
+				<section>
+					<button type="button" @click="show=!show">fade</button>
+					<transition name="fade0">
+						<p v-show="show">fade</p>
+					</transition>
+				</section>
+
+			</fieldset>
+			<script>
+				new Vue({
+					el: "#transition",
+					data: {
+						show: true
+					}
+
+				})
+			</script>
+		</section>
+		<hr />
+		<section>
+			<h3><center>深入响应</center></h3>
+			<p>把一个普通 Javascript 对象传给 Vue 实例的 data 选项，Vue 将遍历此对象所有的属性，并使用 Object.defineProperty 把这些属性全部转为 getter/setter。Object.defineProperty 是仅 ES5 支持，且无法 shim 的特性，这也就是为什么 Vue 不支持 IE8 以及更低版本浏览器的原因。</p>
+		</section>
+
 	</body>
 
 </html>
