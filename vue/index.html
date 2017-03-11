@@ -200,10 +200,10 @@
 					'vue-child': {
 						template: "<button type='button' @click='num+=1'>{{num}}</button>",
 						data: function() {
-								return {
-									num: 0
-								};
-							} //每次调用方法调用
+							return {
+								num: 0
+							};
+						} //每次调用方法调用
 					}
 				}
 			})
@@ -564,8 +564,15 @@
 			</ul>
 			<style>
 				.fade-enter-active,
-				.fade0-leave-active {
-					transition: all 5s
+				.fade-leave-active {
+					/*过渡状态*/
+					transition: all 1s;
+				}
+				
+				.fade-enter-to,
+				.fade-leave {
+					opacity: 0.5;
+					background: #fcc;
 				}
 				
 				.fade-enter,
@@ -573,9 +580,38 @@
 				/* .fade-leave-active in <2.1.8 */
 				
 				{
-					opacity: 0
+					opacity: 0;
+					background: #39f;
+				}
+				/*anmate*/
+				
+				.animate-leave-active {
+					-webkit-animation: bg 5s linear;
+				}
+				
+				@-webkit-keyframes bg {
+					from {
+						background: #f00;
+					}
+					to {
+						background: #000;
+					}
+				}
+				
+				.animate-enter-active {
+					-webkit-animation: enter_bg 5s linear;
+				}
+				
+				@-webkit-keyframes enter_bg {
+					from {
+						background: #39f;
+					}
+					to {
+						background: #f00;
+					}
 				}
 			</style>
+			<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
 			<fieldset id='transition'>
 				<legend>transition 组件</legend>
 				<p>Vue 提供了 <code>transition</code> 的封装组件，在下列情形中，可以给任何元素和组件添加 entering/leaving 过渡</p>
@@ -584,14 +620,87 @@
 					<li>条件展示 （使用 <code>v-show</code>）</li>
 					<li>动态组件</li>
 					<li>组件根节点</li>
-					<li>name 会将 元素添加一个 name+"leave"  -active过渡属性 -to 动画过渡结束</li>
 				</ul>
+				<ol>
+					<li>
+						<p>自动嗅探目标元素是否有 CSS 过渡或动画，并在合适时添加/删除 CSS 类名。</p>
+					</li>
+					<li>
+						<p>如果过渡组件设置了过渡的
+							<a href="#JavaScript-Hooks">JavaScript 钩子函数</a>，会在相应的阶段调用钩子函数。</p>
+					</li>
+					<li>
+						<p>如果没有找到 JavaScript 钩子并且也没有检测到 CSS 过渡/动画，DOM 操作（插入/删除）在下一帧中立即执行。(注意：此指浏览器逐帧动画机制，与 Vue，和Vue的 <code>nextTick</code> 概念不同)</p>
+					</li>
+				</ol>
+				<p>对于这些在 enter/leave 过渡中切换的类名，v- 是这些类名的前缀。使用 transition name="my-transition" 可以重置前缀，比如 v-enter 替换为 my-transition-enter。</p>
 				<section>
 					<button type="button" @click="show=!show">fade</button>
-					<transition name="fade0">
-						<p v-show="show">fade</p>
+					<transition name="fade">
+						<p v-show="show">transition</p>
+					</transition>
+					<transition name="animate">
+						<p v-show="show">animate</p>
+					</transition>
+
+					<transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight" appear>
+						<p v-if="show">animate.css</p>
+					</transition>
+
+					<transition 
+						v-on:leave='leave' v-on:enter='enter' v-bind:css='false'>
+						<p v-if="show">animate js</p>
 					</transition>
 				</section>
+				<ol>
+					<h5>过渡的css 类名</h5>
+
+					<li>
+						<p><code>v-enter/v-leave</code>: 定义开始/离开过渡的开始状态。在开始/离开过渡被触发时生效，在下一个帧移除。</p><i>从无到有enter/从有到无leave</i>
+					</li>
+					<li>
+						<p><code>v-enter-active/v-leave-active</code>: 定义开始/离开过渡的结束状态。在开始/离开过渡被触发时生效，在 <code>transition/animation</code> 完成之后移除。
+					</li>
+					<li>
+						<p><code>v-enter-to/v-leave-to</code>: <strong>Only available in versions &gt;=2.1.8.</strong> 定义最终开始/离开过渡的结束状态，过渡结束时移除
+						</p>
+					</li>
+				</ol>
+				<ul>
+					<h5>自定义过渡域名</h5>
+					<li><code>enter-class</code></li>
+					<li><code>enter-active-class</code></li>
+					<li><code>enter-to-class</code> (&gt;= 2.1.8 only)</li>
+					<li><code>leave-class</code></li>
+					<li><code>leave-active-class</code></li>
+					<li><code>leave-to-class</code> (&gt;= 2.1.8 only)</li>
+				</ul>
+				<ul>
+					<h5>js动画 对应Vue methods 触发  function(el) 返回一个操作对象</h5>
+					<li>
+						<strong> v-on:before-enter</strong>
+
+					</li>
+					<li>
+						<strong> v-on:enter</strong>
+					</li>
+					<li>
+						<strong> v-on:after-enter</strong>
+					</li>
+					<li>
+						<strong> v-on:enter-cancelled</strong>
+					</li>
+				</ul>
+				<ol>
+					<li>当只用 JavaScript 过渡的时候， 在 enter 和 leave 中，回调函数 done 是必须的 。 否则，它们会被同步调用，过渡会立即完成。
+
+						<li>推荐对于仅使用 JavaScript 过渡的元素添加 v-bind:css="false"，Vue 会跳过 CSS 的检测。这也可以避免过渡过程中 CSS 的影响。
+
+				</ol>
+				<ul>
+
+					<li>初次渲染过渡 transition元素 添加 appear属性</li>
+				</ul>
 
 			</fieldset>
 			<script>
@@ -599,6 +708,17 @@
 					el: "#transition",
 					data: {
 						show: true
+					},
+					methods: {
+						enter: function(el, done) {
+							console.log(el)
+							done();
+
+						},
+						leave: function(el, done) {
+							console.log(el)
+							done();
+						}
 					}
 
 				})
