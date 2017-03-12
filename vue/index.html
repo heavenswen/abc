@@ -563,16 +563,26 @@
 				<li>可以配合使用第三方 JavaScript 动画库，如 Velocity.js</li>
 			</ul>
 			<style>
+				nav a{
+					display: inline-block;
+					margin-left: 5px;
+				}
+				.list-complete-item{
+					transition: all 1s;
+				}
 				.fade-enter-active,
 				.fade-leave-active {
 					/*过渡状态*/
 					transition: all 1s;
 				}
-				
+				.fade-leave-active{
+					position: absolute;
+				}
 				.fade-enter-to,
 				.fade-leave {
 					opacity: 0.5;
 					background: #fcc;
+					 transform: translateY(30px);
 				}
 				
 				.fade-enter,
@@ -611,6 +621,7 @@
 					}
 				}
 			</style>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
 			<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
 			<fieldset id='transition'>
 				<legend>transition 组件</legend>
@@ -647,8 +658,7 @@
 						<p v-if="show">animate.css</p>
 					</transition>
 
-					<transition 
-						v-on:leave='leave' v-on:enter='enter' v-bind:css='false'>
+					<transition v-on:leave='leave' v-on:enter='enter' v-bind:css='false'>
 						<p v-if="show">animate js</p>
 					</transition>
 				</section>
@@ -700,6 +710,54 @@
 				<ul>
 
 					<li>初次渲染过渡 transition元素 添加 appear属性</li>
+					<li>当有相同标签名的元素切换时，需要通过 key 特性设置唯一的值来标记以让 Vue 区分它们，否则 Vue 为了效率只会替换相同标签内部的内容。即使在技术上没有必要，给在
+						<transition> 组件中的多个元素设置 key 是一个更好的实践。</li>
+							
+					<fieldset>
+						<legend>多元素过渡 key, mode</legend>
+						<transition name='fade' mode='out-in'>
+							<button v-if="more" key="on" @click='more=false'>
+    on
+  </button>
+							<button v-else key="off" @click='more=true'>
+    off
+  </button>
+						</transition>
+					</fieldset>
+					<li>
+						<h5>多元素过渡 过渡模式mode</h5>
+						<ul>
+							<li>
+in-out: 新元素先进行过渡，完成之后当前元素过渡离开。</li>
+							<li>
+								out-in: 当前元素先进行过渡，完成之后新元素过渡进入。
+							</li>
+						</ul>
+					</li>
+					<fieldset>
+						<legend>列表过渡</legend>
+						<nav>
+							<button type="button" @click='addList'>add</button>
+							<button type="button" @click='react'>react</button>
+						<transition-group name='fade' tag='nav'>
+							<a v-for='item in  list' :key="item"  class="list-complete-item" >
+								{{item}}
+							</a>
+						</transition-group>	
+						</nav>
+					</fieldset>
+					<li>
+						<h5>列表过渡 transition-group</h5>
+						<ul>
+							<li>不同于 transition， 它会以一个真实元素渲染：默认为 span。你也可以通过 tag 属性更换为其他渲染元素</li>
+								<li>它内部的元素必须具有唯一的 key 属性</li>
+								<li> v-move 特性 它会在元素的改变定位的过程中应用。像之前的类名一样，可以通过 name 属性来自定义前缀，也可以通过 move-class 属性手动设置。 例中的list-complete-item
+								<ul>
+									<li>需要注意的是使用 FLIP 过渡的元素不能设置为 display: inline 。作为替代方案，可以设置为 display: inline-block 或者放置于 flex 中</li>
+								</ul>
+								</li>
+						</ul>
+					</li>
 				</ul>
 
 			</fieldset>
@@ -707,17 +765,29 @@
 				new Vue({
 					el: "#transition",
 					data: {
-						show: true
+						show: true,
+						more: true,
+						list:[1,2,3,4,5]
 					},
 					methods: {
 						enter: function(el, done) {
+							//过渡开始触发 返回一个dom
 							console.log(el)
 							done();
 
 						},
 						leave: function(el, done) {
+							//过渡开始触发 返回一个dom
 							console.log(el)
 							done();
+						},
+						addList:function(){
+							//添加
+							this.list.push(0);
+						},
+						react:function(){
+							//随机改变
+							this.list =_.shuffle(this.list)
 						}
 					}
 
