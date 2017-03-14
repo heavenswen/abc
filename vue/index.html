@@ -609,38 +609,10 @@
 						background: #f00;
 					}
 				}
-				/*list*/
-				
-				nav a {
-					width: 20px;
-					height: 20px;
-					text-align: center;
-					line-height: 20px;
-					display: inline-block;
-					border: 1px solid;
-					margin-right: -1px;
-					margin-bottom: -1px;
-				}
-				
-				.list-enter-active,
-				.list-leave-active {
-					transition: all 1s linear;
-					position: absolute;
-				}
-				.list-enter,
-				.list-leave-to {
-					opacity: 0;
-					transform: translateY(30px);
-				}
-				
-				.list-move {
-					background: #f00;
-					transition: all 1s linear;
-				}
 			</style>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
 			<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-			<fieldset id='transition'>
+			<fieldset>
 				<legend>transition 组件</legend>
 				<p>Vue 提供了 <code>transition</code> 的封装组件，在下列情形中，可以给任何元素和组件添加 entering/leaving 过渡</p>
 				<ul>
@@ -662,7 +634,7 @@
 					</li>
 				</ol>
 				<p>对于这些在 enter/leave 过渡中切换的类名，v- 是这些类名的前缀。使用 transition name="my-transition" 可以重置前缀，比如 v-enter 替换为 my-transition-enter。</p>
-				<section>
+				<section id='transition'>
 					<button type="button" @click="show=!show">fade</button>
 					<transition name="fade">
 						<p v-show="show">transition</p>
@@ -727,56 +699,8 @@
 				<ul>
 
 					<li>初次渲染过渡 transition元素 添加 appear属性</li>
-					<li>当有相同标签名的元素切换时，需要通过 key 特性设置唯一的值来标记以让 Vue 区分它们，否则 Vue 为了效率只会替换相同标签内部的内容。即使在技术上没有必要，给在
-						<transition> 组件中的多个元素设置 key 是一个更好的实践。</li>
-
-					<fieldset>
-						<legend>多元素过渡 key, mode</legend>
-						<transition name='fade' mode='out-in'>
-							<button v-if="more" key="on" @click='more=false'>
-    on
-  </button>
-							<button v-else key="off" @click='more=true'>
-    off
-  </button>
-						</transition>
-					</fieldset>
-					<li>
-						<h5>多元素过渡 过渡模式mode</h5>
-						<ul>
-							<li>
-								in-out: 新元素先进行过渡，完成之后当前元素过渡离开。</li>
-							<li>
-								out-in: 当前元素先进行过渡，完成之后新元素过渡进入。
-							</li>
-						</ul>
-					</li>
-					<fieldset>
-						<legend>列表过渡</legend>
-						
-							<button type="button" @click='addList'>add</button>
-							<button type="button" @click='react'>react</button>
-							<transition-group name='list' tag='nav'>
-								<a v-for="(item,key) in  list" v-bind:key="key" class='list-item'>
-									{{item+1}}
-								</a>
-							</transition-group>
-					
-					</fieldset>
-					<li>
-						<h5>列表过渡 transition-group</h5>
-						<ul>
-							<li>不同于 transition， 它会以一个真实元素渲染：默认为 span。你也可以通过 tag 属性更换为其他渲染元素</li>
-							<li>它内部的元素必须具有唯一的 key 属性</li>
-							<li> v-move 特性 它会在元素的改变定位的过程中应用。像之前的类名一样，可以通过 name 属性来自定义前缀（**-move），也可以通过 move-class 属性手动设置。 例中的list-complete-item
-								<ul>
-									<li>需要注意的是使用 FLIP 过渡的元素不能设置为 display: inline 。作为替代方案，可以设置为 display: inline-block 或者放置于 flex 中</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
+					<li>当有相同标签名的元素切换时，需要通过 key 特性设置唯一的值来标记以让 Vue 区分它们，否则 Vue 为了效率只会替换相同标签内部的内容。即使在技术上没有必要，给在 transition 组件中的多个元素设置 key 是一个更好的实践。</li>
 				</ul>
-
 			</fieldset>
 			<script>
 				new Vue({
@@ -784,7 +708,6 @@
 					data: {
 						show: true,
 						more: true,
-						list: [0, 1, 2, 3, 4, 5, 6, 7, 8, ]
 					},
 					methods: {
 						enter: function(el, done) {
@@ -821,6 +744,100 @@
 							}
 
 						},
+					}
+
+				})
+			</script>
+			<fieldset id='more'>
+				<legend>多元素过渡 key, mode</legend>
+				<transition name='fade' mode='out-in'>
+					<button v-if="more" key="on" @click='more=false'>
+    on
+  </button>
+					<button v-else key="off" @click='more=true'>
+    off
+  </button>
+				</transition>
+			</fieldset>
+
+			<ul>
+				<li>
+					in-out: 新元素先进行过渡，完成之后当前元素过渡离开。</li>
+				<li>
+					out-in: 当前元素先进行过渡，完成之后新元素过渡进入。
+				</li>
+			</ul>
+
+			<script>
+				new Vue({
+					el: "#more",
+					data: {
+						more: true,
+					}
+				})
+			</script>
+			<style>
+				/*list*/
+				
+				.list-item {
+					width: 20px;
+					height: 20px;
+					text-align: center;
+					line-height: 20px;
+					display: inline-block;
+					border: 1px solid;
+					margin-right: -1px;
+					margin-bottom: -1px;
+				}
+				
+				.list-enter-active,
+				.list-leave-active {
+					transition: all 1s linear;
+					position: absolute;
+				}
+				
+				.list-enter,
+				.list-leave-to {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+				
+				.list-move {
+					transition: all 1s linear;
+				}
+			</style>
+			<fieldset id="group">
+				<legend>列表过渡</legend>
+
+				<button type="button" @click='addList'>add</button>
+				<button type="button" @click='react'>react</button>
+				<transition-group name='list' tag='ul'>
+					<li v-for="(item,index) in  list" v-bind:key="item" :data-index='index' class='list-item'>
+						<a>
+							{{item+1}}
+						</a>
+					</li>
+				</transition-group>
+				<i>*key == index 时无法触发v-move</i>
+			</fieldset>
+
+			<h5>列表过渡 transition-group</h5>
+			<ul>
+				<li>不同于 transition， 它会以一个真实元素渲染：默认为 span。你也可以通过 tag 属性更换为其他渲染元素</li>
+				<li>它内部的元素必须具有唯一的 key 属性</li>
+				<li> v-move 特性 它会在元素的改变定位的过程中应用。像之前的类名一样，可以通过 name 属性来自定义前缀（**-move），也可以通过 move-class 属性手动设置。 例中的list-complete-item
+					<ul>
+						<li>需要注意的是使用 FLIP 过渡的元素不能设置为 display: inline 。作为替代方案，可以设置为 display: inline-block 或者放置于 flex 中</li>
+					</ul>
+				</li>
+			</ul>
+			<script>
+				new Vue({
+					el: "#group",
+					data: {
+						list: [0, 1, 2, 3, 4, 5, 6, 7, 8, ]
+					},
+					methods: {
 						addList: function() {
 							//添加
 							var length = this.list.length;
@@ -835,6 +852,97 @@
 
 				})
 			</script>
+			<fieldset>
+				<legend>过渡状态 与 watcher</legend>
+				<div class="watch">
+					<input type="number" v-model='num' />
+					<p>{{numshow}}</p>
+				</div>
+			</fieldset>
+			<script>
+				new Vue({
+					el: ".watch",
+					data: {
+						"num": 0, //输入数字
+						"numshow": 0,
+						"animate": null
+					},
+					watch: {
+						"num": {
+							handler: function(now, old) {
+								var that = this;
+								var n = this.numshow;
+								if(that.animate) cancelAnimationFrame(that.animate)
+								that.animate = requestAnimationFrame(animateNum);
+
+								function animateNum() {
+
+									if(n < now) {
+										//递增
+										n++;
+										that.animate = requestAnimationFrame(animateNum);
+
+									} else if(n > now) {
+										//递减
+										n--;
+										that.animate = requestAnimationFrame(animateNum);
+
+									} else if(n == now) {
+										//结束
+										cancelAnimationFrame(that.animate)
+										return false;
+									}
+
+									that.numshow = n;
+								};
+
+							},
+							//deep: true //深度模式
+
+						}
+
+					}
+				})
+			</script>
+		</section>
+		<hr />
+		<section>
+			<h3><center>自定义指令</center></h3>
+			<fieldset id="directive">
+				<legend>directive</legend>
+				<input type="text" v-load value='加载是触发' />
+			</fieldset>
+
+			<script>
+				// 注册一个全局自定义指令 v-load 
+				Vue.directive('load', {
+					// 当绑定元素插入到 DOM 中。
+					bind: function(el) {
+						// 聚焦元素
+						el.select();
+					}
+				})
+				new Vue({
+					el: "#directive"
+				})
+			</script>
+			<ul>
+				<li>
+					<p><code>bind</code>: 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。</p>
+				</li>
+				<li>
+					<p><code>inserted</code>: 被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于 document 中）。</p>
+				</li>
+				<li>
+					<p><code>update</code>: 被绑定元素所在的模板更新时调用，而不论绑定值是否变化。通过比较更新前后的绑定值，可以忽略不必要的模板更新（详细的钩子函数参数见下）。</p>
+				</li>
+				<li>
+					<p><code>componentUpdated</code>: 被绑定元素所在模板完成一次更新周期时调用。</p>
+				</li>
+				<li>
+					<p><code>unbind</code>: 只调用一次， 指令与元素解绑时调用。</p>
+				</li>
+			</ul>
 		</section>
 		<hr />
 		<section>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>render函数</title>
+	</head>
+
+	<body>
+		<script src="//cdn.bootcss.com/vue/2.2.1/vue.js"></script>
+		<section>
+			<h3><center>render函数</center></h3>
+			<p>render： 是用那个来替换 template： 在复杂环境的应用，更加简洁</p>
+			<fieldset id='render'>
+				<anchored-heading :level="3">
+					Hello Vue!
+				</anchored-heading>
+			</fieldset>
+			<script>
+				Vue.component('anchored-heading', {
+					render: function(createElement) {
+						var slot = this.$slots.default; //获得一个虚拟dom
+						var red = createElement("a", {
+							//添加属性 of a
+							class: {
+								foo: true,
+									bar: false
+							},
+							attrs: {
+								name: "render",
+								href: '#'
+							},
+							on: {
+								click: function(e) {
+									console.log(e);
+									return false
+								}
+							},
+
+						}, slot)
+
+						return createElement(
+							'h' + this.level, // tag name 标签名称
+							[slot, red, red] // 子组件中的阵列slot内容
+						)
+					},
+					props: {
+						level: {
+							type: Number,
+							required: true
+						}
+					}
+				})
+				new Vue({
+					el: "#render"
+				})
+			</script>
+			<a href="https://vuefe.cn/v2/guide/render-function.html#基础"></a>
+			<ul>
+				<li>render 函数不会提供专用的 API,包括v-if，v-model等</li>
+				<li>所有组件树中的 VNodes 必须唯一</li>
+				<li>createElement("domName",[dom]) HTML 标签，组件选项，或一个函数</li>
+				<li>dom{{data},VNode}</li>
+				<li>data:
+					<pre><div class="line">{</div><div class="line">  <span class="comment">// 和`v-bind:class`一样的 API</span></div><div class="line">  <span class="string">'class'</span>: {</div><div class="line">    <span class="attr">foo</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">bar</span>: <span class="literal">false</span></div><div class="line">  },</div><div class="line">  <span class="comment">// 和`v-bind:style`一样的 API</span></div><div class="line">  style: {</div><div class="line">    <span class="attr">color</span>: <span class="string">'red'</span>,</div><div class="line">    <span class="attr">fontSize</span>: <span class="string">'14px'</span></div><div class="line">  },</div><div class="line">  <span class="comment">// 正常的 HTML 特性</span></div><div class="line">  attrs: {</div><div class="line">    <span class="attr">id</span>: <span class="string">'foo'</span></div><div class="line">  },</div><div class="line">  <span class="comment">// 组件 props</span></div><div class="line">  props: {</div><div class="line">    <span class="attr">myProp</span>: <span class="string">'bar'</span></div><div class="line">  },</div><div class="line">  <span class="comment">// DOM 属性</span></div><div class="line">  domProps: {</div><div class="line">    <span class="attr">innerHTML</span>: <span class="string">'baz'</span></div><div class="line">  },</div><div class="line">  <span class="comment">// 事件监听器基于 "on"</span></div><div class="line">  <span class="comment">// 所以不再支持如 v-on:keyup.enter 修饰器</span></div><div class="line">  <span class="comment">// 需要手动匹配 keyCode。</span></div><div class="line">  on: {</div><div class="line">    <span class="attr">click</span>: <span class="keyword">this</span>.clickHandler</div><div class="line">  },</div><div class="line">  <span class="comment">// 仅对于组件，用于监听原生事件，而不是组件使用 vm.$emit 触发的事件。</span></div><div class="line">  nativeOn: {</div><div class="line">    <span class="attr">click</span>: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">  },</div><div class="line">  <span class="comment">// 自定义指令. 注意事项：不能对绑定的旧值设值</span></div><div class="line">  <span class="comment">// Vue 会为您持续追踨</span></div><div class="line">  directives: [</div><div class="line">    {</div><div class="line">      <span class="attr">name</span>: <span class="string">'my-custom-directive'</span>,</div><div class="line">      <span class="attr">value</span>: <span class="string">'2'</span></div><div class="line">      expression: <span class="string">'1 + 1'</span>,</div><div class="line">      <span class="attr">arg</span>: <span class="string">'foo'</span>,</div><div class="line">      <span class="attr">modifiers</span>: {</div><div class="line">        <span class="attr">bar</span>: <span class="literal">true</span></div><div class="line">      }</div><div class="line">    }</div><div class="line">  ],</div><div class="line">  <span class="comment">// Scoped slots in the form of</span></div><div class="line">  <span class="comment">// { name: props =&gt; VNode | Array&lt;VNode&gt; }</span></div><div class="line">  scopedSlots: {</div><div class="line">    <span class="attr">default</span>: <span class="function"><span class="params">props</span> =&gt;</span> createElement(<span class="string">'span'</span>, props.text)</div><div class="line">  },</div><div class="line">  <span class="comment">// The name of the slot, if this component is the</span></div><div class="line">  <span class="comment">// child of another component</span></div><div class="line">  slot: <span class="string">'name-of-slot'</span></div><div class="line">  <span class="comment">// 其他特殊顶层属性</span></div><div class="line">  key: <span class="string">'myKey'</span>,</div><div class="line">  <span class="attr">ref</span>: <span class="string">'myRef'</span></div><div class="line">}</div></pre>
+				</li>
+			</ul>
+			<ul>
+				<h5></h5>
+			</ul>
+		</section>
+
+	</body>
+
+</html>
