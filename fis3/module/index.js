@@ -1,9 +1,9 @@
 import Vue from "vue" 
+import jsx from "./jsx.html"
 
 const app = new Vue({
 	el:"#app",
-	data:{
-		title:"hello vue jsx！"
+	render(h){
+		return jsx
 	}
-	//失败
 })

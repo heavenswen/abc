@@ -14,8 +14,8 @@ var release = './dist/'; //产出路径
 
 // 采用 commonjs 模块化方案。
 fis.hook('commonjs', {
-  //baseUrl: './module',
- extList: ['.js', '.jsx', '.es', '.ts', '.tsx']
+	//baseUrl: './module',
+	extList: ['.js', '.jsx', '.es', '.ts', '.tsx']
 });
 
 //components下面的所有js资源都是组件化资源
@@ -28,40 +28,40 @@ fis.hook('node_modules')
 
 // 改用 npm 方案，而不是用 fis-components
 fis.match('/node_modules/**.js', {
-    isMod: true,
-    useSameNameRequire: true
+	isMod: true,
+	useSameNameRequire: true
 });
 //支持 es6、es7 或者 jsx 编译成 es5
-fis.match('module/*.{jsx,js,vue}', {
-  parser: fis.plugin('babel-5.x')
+fis.match('module/*.{jsx,js,html}', {
+parser: fis.plugin('babel-5.x')
 })
 
-
 //支持 typescript、es6 或者 jsx 编译成 js。速度相比 babel 略快，但是 es7 跟进较慢。
-//fis.match('module/*.{jsx,js}', {
-//		parser: fis.plugin('typescript')
+//fis.match('module/*.{jsx,js,html}', {
+//	parser: fis.plugin('typescript')
+//})
+
+//编译es6 to es5
+//fis.match('./module/*.js', {
+//		parser: fis.plugin('translate-es6'),
+//		rExt: '.js'
 //	})
-	//编译es6 to es5
-	//fis.match('./module/*.js', {
-	//		parser: fis.plugin('translate-es6'),
-	//		rExt: '.js'
-	//	})
-	//编译less文件
+//编译less文件
 fis.match('*.less', {
-		parser: fis.plugin('less-2.x'),
-		rExt: '.css'
-	})
-	//编译scss文件
+	parser: fis.plugin('less-2.x'),
+	rExt: '.css'
+})
+//编译scss文件
 fis.match('*.scss', {
-		parser: fis.plugin('node-sass'),
-		rExt: '.css',
-		useSprite: true
-	})
-	//允许你在 js 中直接 require css 文件。
-fis.match('module/*.{js,es,es6,jsx,ts,tsx}', {
-		preprocessor: fis.plugin('js-require-css')
-	})
-	//合并成单个资源
+	parser: fis.plugin('node-sass'),
+	rExt: '.css',
+	useSprite: true
+})
+//允许你在 js 中直接 require css 文件。
+fis.match('module/*.{js,es,es6,jsx,ts,tsx,html}', {
+	preprocessor: fis.plugin('js-require-css')
+})
+//合并成单个资源
 fis.match('::packager', {
 	postpackager: fis.plugin('loader')
 });
@@ -98,14 +98,14 @@ fis.match("fis-conf.js", {
 })
 
 fis.match('*.{less,md,ini,log}', {
-		loaderLang: false,
-		release: false
-	})
-	//_为嵌入模块，将不被发布
+	loaderLang: false,
+	release: false
+})
+//_为嵌入模块，将不被发布
 fis.match('_*.*', {
-		release: false
-	})
-	//发布的时候忽略以下目录或文件
+	release: false
+})
+//发布的时候忽略以下目录或文件
 fis.set('project.ignore', [
 	'output/**',
 	'node_modules/**',
