@@ -1,6 +1,8 @@
 import Vue from "vue" 
 
-export default {
-  props: ['message'],
-  template: '<span>{{ message }}</span>'
-} as Vue.ComponentOptions<Vue>
+const app = new Vue({
+	el:"#app",
+	data:{
+		title:"hello vue jsx！"
+	}	
+})

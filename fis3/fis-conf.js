@@ -31,19 +31,16 @@ fis.match('/node_modules/**.js', {
     isMod: true,
     useSameNameRequire: true
 });
-// 编译所有后缀为 jsx 的文件为 js
-fis.match('/module/*.js', {
-	parser: fis.plugin('babel-5.x', {
-		sourceMaps: true
-	}),
-	rExt: '.js',
-	isMod: true,
-});
+//支持 es6、es7 或者 jsx 编译成 es5
+fis.match('module/*.{jsx,js,vue}', {
+  parser: fis.plugin('babel-5.x')
+})
+
 
 //支持 typescript、es6 或者 jsx 编译成 js。速度相比 babel 略快，但是 es7 跟进较慢。
-fis.match('*.jsx', {
-		parser: fis.plugin('typescript')
-	})
+//fis.match('module/*.{jsx,js}', {
+//		parser: fis.plugin('typescript')
+//	})
 	//编译es6 to es5
 	//fis.match('./module/*.js', {
 	//		parser: fis.plugin('translate-es6'),
