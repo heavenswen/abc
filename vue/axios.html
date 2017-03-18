@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>axios</title>
+		<script src="//cdn.bootcss.com/axios/0.15.3/axios.min.js"></script>
+	</head>
+
+	<body>
+		<h1>axios</h1>
+		<p>基于 Promise 的 HTTP 请求客户端，可同时在浏览器和 node.js 中使用</p>
+		<ul>
+			<li>在浏览器中发送
+				<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequests</a> 请求</li>
+			<li>在 node.js 中发送
+				<a href="http://nodejs.org/api/http.html">http</a>请求</li>
+			<li>支持
+				<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> API</li>
+			<li>拦截请求和响应</li>
+			<li>转换请求和响应数据</li>
+			<li>自动转换 JSON 数据</li>
+			<li>客户端支持保护安全免受
+				<a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">XSRF</a> 攻击</li>
+		</ul>
+		<h2>方法</h2>
+		<fieldset>
+			<legend>get方式(url,data).then().catch()</legend>
+			<ol>
+				<li>axios.get('/user?ID=12345') .then(function (response) { console.log(response); }) .catch(function (response) { console.log(response); });
+					<li> axios.get('/user', { params: { ID: 12345 } }) .then(function (response) { console.log(response); }) .catch(function (response) { console.log(response); });
+			</ol>
+		</fieldset>
+		<script>
+			var box = document.querySelector("h2");
+
+			function getAjax() {
+				axios.get("./readme.md", {
+					//params 传参
+					params: { ID: 12345 }
+				}).then(function(e) {
+					console.log(['get',e]);
+					//box.innerHTML = e.data;
+				}).catch(function(er) {
+					console.error(['get',er]);
+				})
+			}
+
+			function postAjax() {
+				axios.post("./readme.md", {
+					//post 必须有即使是空的
+				}).then(function(e) {
+					console.log(['post']);
+					//box.innerHTML = e.data;
+				}).catch(function(er) {
+					console.error(er);
+				})
+
+			}
+
+			//多事件回调 优先等级在方法之上，没有catch
+//			axios.all([getAjax(), postAjax()])
+//				.then(function(e) {
+//					console.log(['all'])
+//				})
+				
+		</script>
+		<script>
+			//config
+
+			var config = {
+				//请求的接口，在请求的时候，如axios.get(url,config);这里的url会覆盖掉config中的url
+				url: '/user',
+
+				// 请求方法同上
+				method: 'get', // default
+				// 基础url前缀
+				baseURL: 'https://some-domain.com/api/',
+				　　　　　　
+				transformRequest: [function(data) {
+					// 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，
+					　　
+					return data;
+				}],
+
+				transformResponse: [function(data) {
+					// 这里提前处理返回的数据
+
+					return data;
+				}],
+
+				// 请求头信息
+				headers: { 'X-Requested-With': 'XMLHttpRequest' },
+
+				//parameter参数
+				params: {
+					ID: 12345
+				},
+
+				//post参数，使用axios.post(url,{},config);如果没有额外的也必须要用一个空对象，否则会报错
+				data: {
+					firstName: 'Fred'
+				},
+
+				//设置超时时间
+				timeout: 1000,
+				//返回数据类型
+				responseType: 'json', // default
+
+			}
+		</script>
+	</body>
+
+</html>

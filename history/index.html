@@ -18,6 +18,7 @@
 		<nav>
 			<a data-href="../input.html?page=1&a=查询">input</a>
 			<a data-href="../app.html">app</a>
+			<a data-href="../undfind.html">404</a>
 		</nav>
 
 		<div id="con">
@@ -25,17 +26,26 @@
 		</div>
 
 		<script type="text/javascript">
-			function onload(url, fun) {
+			function onload(url, fun, err) {
 				//创建异步
 				var xhr = new XMLHttpRequest();
 				//打开（ ）
 				xhr.open('get', url, true);
+				//发送一个 HTTP 请求
 				xhr.send(null);
-				xhr.onload = function() {
-					var data = xhr.responseText;
-					var xm = xhr.responseXML;
-					fun(data);
-					//document.querySelector("#con").innerHTML = data;
+
+				xhr.onload = function(e) {
+					//http状态代码
+					if(e.target.status == 200) {
+
+						//目前为止为服务器接收到的响应体（不包括头部），或者如果还没有接收到数据的话，就是空字符串。
+						var data = xhr.responseText;
+						fun(data);
+					}else{
+						//失败
+						err(e)
+					}
+
 				}
 
 			}
@@ -66,10 +76,8 @@
 			function route(e) {
 				var src = this.dataset.href; //获得链接
 				var u = '';
-
 				//获得后缀
 				var pagetype = src.match(/[[\.]{1}[a-z]+/ig);
-				console.log(pagetype);
 				//隐藏后缀
 				if(pagetype) {
 					u = src.replace(pagetype, '');
@@ -89,10 +97,19 @@
 				return false;
 
 			};
+			
+			
 			//tragger object
 			var objs = document.querySelectorAll("a");
 			for(var i = 0; i < objs.length; i++) {
-				objs[i].addEventListener("click", route);
+				objs[i].addEventListener("click",function(e){
+					if(confirm("")){
+						route(e)
+					}else{
+						console.log("miss");						
+					}
+					
+				},false);
 			}
 			//触发历史事件时执行
 			window.addEventListener("popstate", function() {
@@ -102,6 +119,19 @@
 					openPage(src);
 				}
 			})
+			//Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了Promise对象。
+			var promise = new Promise(function(resolve, reject){
+				var bool;
+				
+				if(bool){
+					//成功
+				}else{
+					//失败
+					
+				}
+			})
+			
+			
 		</script>
 	</body>
 
