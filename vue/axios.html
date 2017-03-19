@@ -39,16 +39,17 @@
 					//params 传参
 					params: { ID: 12345 }
 				}).then(function(e) {
-					console.log(['get',e]);
+					console.log(['get', e]);
 					//box.innerHTML = e.data;
 				}).catch(function(er) {
-					console.error(['get',er]);
+					console.error(['get', er]);
 				})
 			}
 
 			function postAjax() {
 				axios.post("./readme.md", {
 					//post 必须有即使是空的
+					'a': 123
 				}).then(function(e) {
 					console.log(['post']);
 					//box.innerHTML = e.data;
@@ -57,13 +58,12 @@
 				})
 
 			}
-
+			//postAjax()
 			//多事件回调 优先等级在方法之上，没有catch
-//			axios.all([getAjax(), postAjax()])
-//				.then(function(e) {
-//					console.log(['all'])
-//				})
-				
+			//			axios.all([getAjax(), postAjax()])
+			//				.then(function(e) {
+			//					console.log(['all'])
+			//				})
 		</script>
 		<script>
 			//config

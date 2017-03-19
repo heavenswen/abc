@@ -26,28 +26,67 @@
 		</div>
 
 		<script type="text/javascript">
-			function onload(url, fun, err) {
-				//创建异步
-				var xhr = new XMLHttpRequest();
-				//打开（ ）
-				xhr.open('get', url, true);
-				//发送一个 HTTP 请求
-				xhr.send(null);
+			function getHttpObj() {
+				//兼容
+				var httpobj = null;
+				try {
+					httpobj = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch(e) {
+					try {
+						httpobj = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch(e1) {
+						httpobj = new XMLHttpRequest();
+					}
+				}
+				return httpobj;
+			}
 
-				xhr.onload = function(e) {
-					//http状态代码
-					if(e.target.status == 200) {
+			function onload(url, method, data) {
+				//数据处理
+				var params; //参
+				if(data) {
+					params = "";
+					var i = 0;
+					for(key in data) {
+						
+						if(i) {
+							params += "&";
+						} else {
+							i = 1;
+						}
+						params += (key + "=" + data[key]);
+					}
+				}
+				//请求类型
+				if(method === "POST" || method === "post") {
+					method = "POST";
+				} else {
+					method = "GET";
+				}
+				//url
+				if(method == "GET") {
 
-						//目前为止为服务器接收到的响应体（不包括头部），或者如果还没有接收到数据的话，就是空字符串。
-						var data = xhr.responseText;
-						fun(data);
-					}else{
-						//失败
-						err(e)
+					if(params) url = (url + "?" + params);
+				}
+				//异步				
+				return new Promise(function(resolve, reject) {
+					var xhr = getHttpObj();
+					//打开（ ）
+					xhr.open(method, url, true);
+					//发送一个 HTTP 请求
+					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //这行代码很关键，用来把字符串类型的参数序列化成Form Data
+
+					xhr.send(params); //post 时传输 get send(null) open(mothod,url+"?params")
+					xhr.onload = function(e) {
+						if(e.target.status == 200) {
+							var data = xhr.responseText;
+							resolve(data);
+						} else {
+							reject("error:"+url)
+						}
 					}
 
-				}
-
+				})
 			}
 			//load
 			function openPage(src) {
@@ -66,9 +105,14 @@
 				}
 				//存在参时
 				if(src) {
-					onload(src, function(e) {
-						document.querySelector("#con").innerHTML = e;
-					});
+					//					onload(src, function(e) {
+					//						document.querySelector("#con").innerHTML = e;
+					//					});
+					onload(src, 'get', { a: 111, b: 'string' }).then(function(data) {
+						//console.log(data)
+					}).catch(function(data) {
+						console.error(data)
+					})
 				}
 			};
 			window.addEventListener("load", openPage())
@@ -97,19 +141,11 @@
 				return false;
 
 			};
-			
-			
+
 			//tragger object
 			var objs = document.querySelectorAll("a");
 			for(var i = 0; i < objs.length; i++) {
-				objs[i].addEventListener("click",function(e){
-					if(confirm("")){
-						route(e)
-					}else{
-						console.log("miss");						
-					}
-					
-				},false);
+				objs[i].addEventListener("click", route, false);
 			}
 			//触发历史事件时执行
 			window.addEventListener("popstate", function() {
@@ -119,19 +155,7 @@
 					openPage(src);
 				}
 			})
-			//Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了Promise对象。
-			var promise = new Promise(function(resolve, reject){
-				var bool;
-				
-				if(bool){
-					//成功
-				}else{
-					//失败
-					
-				}
-			})
-			
-			
+			//Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了Promise对象new Promise(function(resolve, reject)。
 		</script>
 	</body>
 
