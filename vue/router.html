@@ -4,63 +4,81 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>vue-router</title>
-		<script src="//cdn.bootcss.com/vue/2.2.1/vue.js"></script>
-		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+		<script src="//cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
+		<script src="//cdn.bootcss.com/vue-router/2.3.0/vue-router.min.js"></script>
 	</head>
+	<style>
+		/*当 <router-link> 对应的路由匹配成功，将自动设置 class 属性值 .router-link-active*/
+		
+		.router-link-active {
+			color: #39f;
+		}
+	</style>
 
 	<body>
 		<div id="app">
 			<h1>vue+vue-router</h1>
-			<p>
-				<!-- 使用 router-link 组件来导航. -->
-				<!-- 通过传入 `to` 属性指定链接. -->
-				<!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-				<router-link to="/foo">Go to Foo</router-link>
-				<router-link to="/bar">Go to Bar</router-link>
-			</p>
-			<!-- 路由出口 -->
-			<!-- 路由匹配到的组件将渲染在这里 -->
-			<router-view></router-view>
+			<!--router-link 链接-->
+			<router-link to="/base">基础</router-link>
+			<!--/user/:username模式 单参数-->
+			<router-link to="/get/id?a=111&b=222">动态路由</router-link>
+			<!--/user/:username/post/:psot_id  双参模式-->
+			<router-link to="/get/more/post/even">动态路由 多参数</router-link>
+			<router-link to="/child">路由嵌套 </router-link>
+			<router-link to="/child/cell">路由嵌套 cell</router-link>
+			<router-link to="/more">多个视图</router-link>
+			<!--router-view 输出内容-->
+			<fieldset>
+				<legend>
+					<center>router-view </center>
+				</legend>
+				<strong>view:</strong>
+				<router-view class="content"></router-view>
+				<!--多视图-->
+				<strong>view1:</strong>
+				<router-view name="main">无</router-view>
+			</fieldset>
+			<ul>
+				<h4>编程式导航 history</h4>
+				<li><strong>router.push(string||object)跳转</strong>
+					<p><i>path 地址,params参,query查询</i></p>
+					<p>router-link :to </p>
+				</li>
+				<li><strong>router.replace(替换)它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</strong>
+					<p>router-link :to="..." replace</p>
+				</li>
+				<li>router.go(n)这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。</li>
+			</ul>
+			<ul>
+				<h4>导航钩子</h4>
+				<li>全局 router.beforeEach(to, from, next) 钩子beforeEnter </li>
+				<ul>
+					<li>
+						<p><strong><code>to: Route</code></strong>: 即将要进入的目标
+							<a href="../api/route-object.html">路由对象</a>
+						</p>
+					</li>
+					<li>
+						<p><strong><code>from: Route</code></strong>: 当前导航正要离开的路由</p>
+					</li>
+					<li>
+						<p><strong><code>next: Function</code></strong>: 一定要调用该方法来 <strong>resolve</strong> 这个钩子。执行效果依赖 <code>next</code> 方法的调用参数。</p>
+						<ul>
+							<li>
+								<p><strong><code>next()</code></strong>: 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 <strong>confirmed</strong> （确认的）。</p>
+							</li>
+							<li>
+								<p><strong><code>next(false)</code></strong>: 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 <code>from</code> 路由对应的地址。</p>
+							</li>
+							<li>
+								<p><strong><code>next('/')</code> 或者 <code>next({ path: '/' })</code></strong>: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</ul>
 		</div>
-
-		<script>
-			// 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
-
-			// 1. 定义（路由）组件。
-			// 可以从其他文件 import 进来
-			const Foo = {
-				template: '<div>foo</div>'
-			}
-			const Bar = {
-				template: '<div>bar</div>'
-			}
-
-			// 2. 定义路由
-			// 每个路由应该映射一个组件。 其中"component" 可以是
-			// 通过 Vue.extend() 创建的组件构造器，
-			// 或者，只是一个组件配置对象。
-			// 我们晚点再讨论嵌套路由。
-			const routes = [{
-				path: '/foo',
-				component: Foo
-			}, {
-				path: '/bar',
-				component: Bar
-			}]
-
-			// 3. 创建 router 实例，然后传 `routes` 配置
-			// 你还可以传别的配置参数, 不过先这么简单着吧。
-			const router = new VueRouter({
-				routes // （缩写）相当于 routes: routes
-			})
-
-			// 4. 创建和挂载根实例。
-			// 记得要通过 router 配置参数注入路由，
-			// 从而让整个应用都有路由功能
-			const app = new Vue({
-				router
-			}).$mount('#app')
-		</script>
+		<script src="js/route.js"></script>
 	</body>
 
 </html>
