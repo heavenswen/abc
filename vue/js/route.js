@@ -12,7 +12,8 @@ const Data = {
 };
 //路由嵌套
 const Child = {
-	template: '<div>路由嵌套：<router-view></<router-view></div>'
+	//设置一个内部过渡
+	template: '<div>路由嵌套：<transition name="fade"><router-view></<router-view></transition></div>'
 }
 
 // 2. 定义路由
@@ -44,7 +45,7 @@ const routes = [{
 			// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
 			// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
 			// 可以访问组件实例 `this`
-			
+
 		},
 		beforeRouteLeave(to, from, next) {
 			// 导航离开该组件的对应路由时调用
@@ -96,7 +97,17 @@ const routes = [{
 // 3. 创建 router 实例，然后传 `routes` 配置
 //*一个页面只会有一个路由
 var router = new VueRouter({
-	routes: routes // 相当于 routes（缩写）,
+	routes: routes, // 相当于 routes（缩写）,
+	scrollBehavior(to, from, savedPosition) {
+		// return { x: 0, y: 0 }期望滚动到哪个的位置
+		//仅当 popstate 导航 可用
+		//滚动锚点
+		if(to.hash) {
+			return {
+				selector: to.hash
+			}
+		}
+	}
 });
 // 4. 创建和挂载根实例。
 // 记得要通过 router 配置参数注入路由，
@@ -104,8 +115,9 @@ const app = new Vue({
 	router: router,
 	watch: {
 		"$route": function(to, from) {
-			//
-			console.log(["$route", to, from])
+			//路由变换时执行
+			//console.log(["$route", to, from])
+			console.log(this.$route.matched)
 		}
 	}
 }).$mount('#app')

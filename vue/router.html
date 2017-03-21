@@ -13,6 +13,45 @@
 		.router-link-active {
 			color: #39f;
 		}
+		/*过渡 enter 进入时动画 */
+		
+		.slide-enter-active,
+		.slide-leave-active,
+		.fade-enter-active,
+		.fade-leave-active {
+			background: #fff;
+			transition: all 1s linear;
+		}
+		/*重叠元素*/
+		
+		.fade-leave-active,
+		.slide-leave-active {
+			position: absolute;
+		}
+		
+		.slide-enter {
+			transform: translateX(100%);
+		}
+		
+		.slide-leave-to {
+			opacity: 1;
+		}
+		
+		.slide-enter-to {
+			transform: translateX(0%)
+		}
+		
+		.fade-enter {
+			opacity: 0;
+		}
+		
+		.fade-enter-to {
+			opacity: 1;
+		}
+		
+		.fade-leave-to {
+			opacity: 0;
+		}
 	</style>
 
 	<body>
@@ -33,7 +72,10 @@
 					<center>router-view </center>
 				</legend>
 				<strong>view:</strong>
-				<router-view class="content"></router-view>
+				<transition name='slide'>
+					<router-view class="content"></router-view>
+				</transition>
+
 				<!--多视图-->
 				<strong>view1:</strong>
 				<router-view name="main">无</router-view>
@@ -76,6 +118,29 @@
 						</ul>
 					</li>
 				</ul>
+			</ul>
+			<ul>
+				<h4>过渡动画 transition 元素</h4>
+				<li> this.transitionName 设置当前模版 transition 元素的name</li>
+			</ul>
+			<ul>
+				<h4>数据获取</h4>
+				<li> vue.created()// 组件创建完后获取数据</li>
+				<li>vue.beforeRouteEnter() 导航完成前*记得调用 next()完成导航</li>
+			</ul>
+			<ul>
+				<h4>懒加载 webpack</h4>
+				<li>结合 Vue 的 异步组件 和 Webpack 的 code splitting feature, 轻松实现路由组件的懒加载。
+					<code>const Foo = r => require.ensure([], () => r(require('./Foo.vue')))</code>
+				</li>
+				<li>组件按块分组只需要 给 chunk 命名，提供 require.ensure 第三个参数作为 chunk 的名称
+				<code>const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')</code>
+				</li>
+			</ul>
+			
+			<ul>
+				<h4>其他</h4>
+				<li>meta 路由元信息 $route.mateched</li>
 			</ul>
 		</div>
 		<script src="js/route.js"></script>
