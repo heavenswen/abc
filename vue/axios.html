@@ -33,11 +33,12 @@
 		</fieldset>
 		<script>
 			var box = document.querySelector("h2");
+			getAjax()
 
 			function getAjax() {
-				axios.get("./readme.md", {
+				axios.get("https://api.imjad.cn/cloudmusic/?type=search&s=%E5%91%A8%E6%9D%B0%E4%BC%A6", {
 					//params 传参
-					params: { ID: 12345 }
+					//params: { ID: 12345 }
 				}).then(function(e) {
 					console.log(['get', e]);
 					//box.innerHTML = e.data;
@@ -90,7 +91,9 @@
 				}],
 
 				// 请求头信息
-				headers: { 'X-Requested-With': 'XMLHttpRequest' },
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest'
+				},
 
 				//parameter参数
 				params: {
