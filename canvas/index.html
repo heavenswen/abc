@@ -23,13 +23,14 @@
 			var w = $(window).width();
 			var h = $(window).height() / 2;
 			canvas.width = w;
-			canvas.height = h;
+			canvas.height = w;
+			//init canvas
 			var con = canvas.getContext('2d');
 			var colors = Array("#ffff00", "#ff0000", "#33ffff", "#ff9900", "#ff634c", "#4cff61", "#ff6ff7", "#5f4ffc", "#faa035")
 			var balls = [];//球数据
 			var old_time;//旧时间
 			/*round*/
-			var r = 5;//圆的半径
+			var r = 6;//圆的半径
 			var fill = '#3399ff';//填充颜色
 			var top = 10;
 			var margin = 5;
@@ -64,8 +65,9 @@
 				return colors[randem];
 			}
 
-			//
+			//set balls‘s data
 			var ballsfun = function (datax, datay) {
+				//开始坐标x,y 结束坐标x，y 颜色 
 				balls.push({ x: datax, y: datay, r: r, vx: vxfun(), vy: 0, color: colorfun() })
 			}
 			
@@ -85,21 +87,36 @@
 				}//bottom检测
 
 			}
+
+			//set time of canvas
 			var round = function (x, y, color) {
 				var time = new Date(),
 					h = time.getHours(),
 					m = time.getMinutes(),
 					s = time.getSeconds();
+				//storage old time
 				old_time = [h, m, s];
-				//set old time
+				
+				//绘制路径
 				con.beginPath();
+				// 绘制弧形
 				con.arc(x, y, r, 0, 2 * Math.PI);
+				//填充的样式
 				con.fillStyle = color || fill;
+				//填充
 				con.fill();
+				// 方法创建从当前点到开始点的路径 闭合路径
 				con.closePath();
+				//边框样式
+				//con.strokeStyle="green";
+				//绘制
+				//con.stroke();
+				
 				ball_to_round();//动画
+
 			}//round age (x,y)
 
+			//time_to_str(value(h,m,s)) 时间转换格式 00:00:00
 			function time_to_str(value) {
 				var h = value[0] < 10 ? "0" + value[0] : value[0],
 					m = value[1] < 10 ? "0" + value[1] : value[1],
@@ -109,7 +126,7 @@
 
 				str_to_digit(str);
 
-			}//time_to_str(value(h,m,s))
+			}
 
 			function str_to_digit(str) {
 
