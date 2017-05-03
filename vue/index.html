@@ -70,7 +70,7 @@
 		</script>
 		<hr />
 		<h2>传参 namefun(index)</h2>
-		<div class="index">
+		<div class="index"  @keyup.enter='addLi'>
 			<ol>
 				<input type="text" v-model='input' @keyup.enter='addLi' /><button type="button" v-on:click='addLi'>Add</button>
 				<p><small>按回车添加</small></p>
@@ -908,7 +908,7 @@
 		<hr />
 		<section>
 			<h3><center>自定义指令</center></h3>
-			<fieldset id="directive">
+			<fieldset id="directive" @keyup.enter='enter'>
 				<legend>directive</legend>
 				<input type="text" v-load value='加载是触发' />
 			</fieldset>
@@ -919,11 +919,16 @@
 					// 当绑定元素插入到 DOM 中。
 					inserted: function(el) {
 						// 聚焦元素
-						el.select();
+						el.focus();
 					}
 				})
 				new Vue({
-					el: "#directive"
+					el: "#directive",
+					methods:{
+						enter(e){
+							alert("enter")
+						}
+					}
 				})
 			</script>
 			<ul>

@@ -112,6 +112,9 @@ var router = new VueRouter({
 // 4. 创建和挂载根实例。
 // 记得要通过 router 配置参数注入路由，
 const app = new Vue({
+	data:{
+		data:111
+	},
 	router: router,
 	watch: {
 		"$route": function(to, from) {

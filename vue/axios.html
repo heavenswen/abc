@@ -37,7 +37,7 @@
 
 			function getAjax() {
 				axios.get("https://api.imjad.cn/cloudmusic/?type=search&s=%E5%91%A8%E6%9D%B0%E4%BC%A6", {
-					//params 传参
+					//params 传参 当地址上有参数时累加
 					//params: { ID: 12345 }
 				}).then(function(e) {
 					console.log(['get', e]);
@@ -59,7 +59,7 @@
 				})
 
 			}
-			//postAjax()
+			postAjax()
 			//多事件回调 优先等级在方法之上，没有catch
 			//			axios.all([getAjax(), postAjax()])
 			//				.then(function(e) {
