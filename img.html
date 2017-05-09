@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="images/img04.jpg">
+    <script src="lib/jquery.js"></script>
+    <script>
+        function imgLoad(obj, url) {
+            //预加载图片
+            let img = new Image()
+            img.src = url;
+
+            //complete是否渲染完毕
+            if (img.complete) {
+                obj.src = url
+            } else {
+                img.onload = function () {
+
+                }
+            }
+
+
+        }
+        let r = 0
+        let obj = document.querySelector("img")
+        // let url = "images/img04.jpg?r=" + r
+        // obj.src = url
+
+        obj.onload = function () {
+            // 加载完毕
+            console.log("11")
+        }
+    </script>
+</body>
+
+</html>
