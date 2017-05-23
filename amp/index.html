@@ -99,378 +99,6 @@
         }
     </style>
     <link rel="stylesheet" href="index.css" />
-    <!--authorization 检测 登录状态-->
-    <script id="amp-access" type="application/json">
-        {
-    "authorization": "https://ampbyexample.com/samples_templates/comment_section/authorization?rid=READER_ID&url=CANONICAL_URL&ref=DOCUMENT_REFERRER&_=RANDOM",
-    "noPingback": "true",
-    "login": {
-      "sign-in": "https://ampbyexample.com/samples_templates/comment_section/login?rid=READER_ID&url=CANONICAL_URL",
-      "sign-out": "https://ampbyexample.com/samples_templates/comment_section/logout"
-    },
-    "authorizationFallbackResponse": {
-      "error": true,
-      "loggedIn": false
-    }
-  }
-    </script>
-    <!--直播博客live-list-->
-    <script type="application/ld+json">
-        {
-    "@context": "http://schema.org",
-    "@type": "LiveBlogPosting",
-    "url": "https://ampbyexample.com/samples_templates/live_blog/",
-    "articleBody": "This is the initial text in the blog post",
-    "datePublished": "2016-09-08T23:04:28.24337",
-    "about": {
-      "@type": "Event",
-      "description": "This is my great live blog sample",
-      "startDate": "2016-07-23T13:00:00-07:00",
-      "endDate": "2016-07-23T15:00:00-07:00",
-      "name": "An AMP Live Blog",
-      "url": "https://ampbyexample.com/samples_templates/live_blog/",
-      "location": {
-        "@type": "EventVenue",
-        "name": "The Venue Name",
-        "address" : {
-          "@type": "PostalAddress",
-          "streetAddress": "701 Mission St",
-          "addressLocality": "San Francisco",
-          "addressRegion": "CA",
-          "postalCode": "94103",
-          "addressCountry": "US"
-        }
-      }
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Google",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://ampbyexample.com/img/favicon.png",
-        "width": "512",
-        "height": "512"
-      }
-    },
-    "author": {
-      "@type": "Person",
-      "sameAs": "https://github.com/kul3r4",
-      "name": "Chiara Chiappini"
-    },
-    "image": {
-      "@type": "ImageObject",
-      "url": "https://ampbyexample.com/img/abe_preview.png",
-      "height": "1532",
-      "width": "2046"
-    },
-    "coverageStartTime": "2016-07-23T11:30:00-07:00",
-    "coverageEndTime": "2016-07-23T16:00:00-07:00",
-    "headline": "An AMP Live Blog",
-    "description": "A Live Blog implementation with AMP",
-    "liveBlogUpdate": [
-          {
-            "@type": "BlogPosting",
-            "headline": "Green landscape",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post1",
-            "datePublished": "2017-05-18T23:24:10.855706+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_green_1280x853.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Mountains",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post2",
-            "datePublished": "2017-05-18T23:24:10.85574+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_mountains_1280x657.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Road leading to a lake",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post3",
-            "datePublished": "2017-05-18T23:24:10.855744+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_lake_1280x857.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Forested hills",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post4",
-            "datePublished": "2017-05-18T23:24:10.855747+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_trees_1280x960.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Scattered houses",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post5",
-            "datePublished": "2017-05-18T23:24:10.85575+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_village_1280x853.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Canyon",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post6",
-            "datePublished": "2017-05-18T23:24:10.855753+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_canyon_1280x1700.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Desert",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post7",
-            "datePublished": "2017-05-18T23:24:10.855756+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_desert_1280x853.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Houses",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post8",
-            "datePublished": "2017-05-18T23:24:10.855759+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_houses_1280x803.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Blue sea",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post9",
-            "datePublished": "2017-05-18T23:24:10.855761+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_sea_1280x848.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          },
-          {
-            "@type": "BlogPosting",
-            "headline": "Sailing ship",
-            "url": "https://www.ampbyexample.com/samples_templates/live_blog/#post10",
-            "datePublished": "2017-05-18T23:24:10.855764+00:00",
-            "author": {
-              "@type": "Person",
-              "sameAs": "https://github.com/kul3r4",
-              "name": "Chiara Chiappini"
-            },
-            "articleBody": {
-              "@type": "Text"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "AMP By Example",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.ampbyexample.com/img/favicon.png",
-                "width": "512",
-                "height": "512"
-              }
-            },
-            "image": {
-              "@type": "ImageObject",
-              "url": "https://www.ampbyexample.com/img/landscape_ship_1280x853.jpg",
-              "width": "853",
-              "height": "1280"
-            }
-          }
-        ]
-  }
-    </script>
 
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
@@ -481,6 +109,8 @@
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
     <script async="" custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
     <script async="" custom-element="amp-access" src="https://cdn.ampproject.org/v0/amp-access-0.1.js"></script>
+    <!--live-->
+    <script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
 </head>
 
 <body>
@@ -541,24 +171,41 @@
     </amp-list>
     <h3> login </h3>
     <p>必须依赖script id="amp-access" type="application/json 配置 并异步监控 登入后不显示</p>
+    <!--authorization 检测 登录状态 login:点击触发页面-->
+    <script id="amp-access" type="application/json">
+        {
+    "authorization": "https://ampbyexample.com/samples_templates/comment_section/authorization?rid=READER_ID&url=CANONICAL_URL&ref=DOCUMENT_REFERRER&_=RANDOM",
+    "noPingback": "true",
+    "login": {
+      "sign-in": "https://ampbyexample.com/samples_templates/comment_section/login?rid=READER_ID&url=CANONICAL_URL",
+      "sign-out": "https://ampbyexample.com/samples_templates/comment_section/logout"
+    },
+    "authorizationFallbackResponse": {
+      "error": true,
+      "loggedIn": false
+    }
+  }
+    </script>
     <span amp-access="NOT loggedIn" role="button" tabindex="0" amp-access-hide>
         <h2 class="m1">Please login to comment</h2>
         <button on="tap:amp-access.login-sign-in"
             class="ampstart-btn mx1 mt1 caps">Login</button>
     </span>
     <!--form-->
-    <p>登入后显示form action-xhr=地址</p>
-    <form class="px1 pt1 flex" amp-access="loggedIn" amp-access-hide method="post" action-xhr="https://ampbyexample.com/samples_templates/comment_section/submit-comment-xhr"
+    <p>登入后显示form action-xhr=地址 x</p>
+    <form class="px1 pt1 flex" amp-access="loggedIn" amp-access-hide method="post" action-xhr="https://www.ampproject.org/samples_templates/comment_section/submit-comment-xhr"
         target="_top">
-        <!--登入后显示评论-->
+        <!--登入后显示-->
         <div class="ampstart-input inline-block relative m0 p0 mb3">
-            <input type="text" value="" name="text" id="ip1" class="block border-none p0 m0" placeholder="Your comment ..." required>
+            <input type="text" value="" name="text" id="ip1" class="block border-none p0 m0" placeholder="Your comment ..." >
+            <!--获得输入的内容-->
             <label for="ip1" class="absolute top-0 right-0 bottom-0 left-0">
                  Your comment ...
             </label>
         </div>
         <input type="submit" value="Comment" class="ampstart-btn caps m1">
 
+        <!--提交成功-->
         <div submit-success>
             <template type="amp-mustache">
                 <div class="flex">
@@ -584,41 +231,13 @@
     <button amp-access="loggedIn" amp-access-hide tabindex="0" on="tap:amp-access.login-sign-out" class="ampstart-btn m2 caps">Logout</button>
 
     <h3>live</h3>
-    <amp-live-list layout="container" data-poll-interval="15000" data-max-items-per-page="5" id="amp-live-list-insert-blog">
-
-        <button id="live-list-update-button" update on="tap:amp-live-list-insert-blog.update" class="ampstart-btn caps">You have updates</button>
-        <div items>
-
-            <div id="post1" data-sort-time="20170519092006">
-                <div class="ampstart-card m1 blog">
-                    <amp-img src="/img/landscape_green_1280x853.jpg" layout="responsive" width="1280" height="853">
-                    </amp-img>
-                    <h4 class="title">Green landscape</h4>
-                    <p class="date">09:20:06</p>
-                    <p class="text">A green landscape with trees.</p>
-                    <p class="social-share">
-                        <amp-social-share type="twitter" width="45" height="33" data-param-url="AMPDOC_URL#post1"></amp-social-share>
-                        <amp-social-share type="facebook" width="45" height="33" data-attribution="254325784911610" data-param-url="AMPDOC_URL#post1"></amp-social-share>
-                        <amp-social-share type="gplus" width="45" height="33" data-param-url="AMPDOC_URL#post1"></amp-social-share>
-                        <amp-social-share type="email" width="45" height="33" data-param-url="AMPDOC_URL#post1"></amp-social-share>
-                        <amp-social-share type="pinterest" width="45" height="33" data-param-url="AMPDOC_URL#post1"></amp-social-share>
-                    </p>
-                </div>
-            </div>
-
-        </div>
-        <!--分页-->
-        <div pagination>
-            <nav aria-label="amp live list pagination">
-                <ul class="pagination">
-
-                    <li>1</li>
-
-                </ul>
-            </nav>
-        </div>
-
+    <p>interval:轮询间隔，per-page:保留更新数</p>
+    <amp-live-list id='my-live-list' data-poll-interval='15000' data-max-items-per-page='5'>
+        <button update on='tap:my-live-list.update'>你有更新！</button>
+        <!--content 通过引用每个帖子作为一个项目，每个项目应该有一个唯一id和一个data-sort-time-->
+        <div items> </div>
     </amp-live-list>
+
 </body>
 
 </html>
